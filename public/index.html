@@ -25,8 +25,11 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 const sn=(nr)=>{
   let u = url+"?radio="+nr;
-    console.log(nr);
-    console.log(u);
+  let uu = (window.location.search.split("=")[1] || url);
+    console.log("nr=",nr);
+    console.log("u=",u);
+    console.log("uu=",uu);
+  window.location.href
   info.innerHTML = `<h3>nr=${nr}; ${u}</h3>`;
 }
 </script>
