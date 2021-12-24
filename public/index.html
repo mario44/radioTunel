@@ -31,6 +31,16 @@ const sn=(nr)=>{
     console.log("uu=",uu);
   window.location.href
   info.innerHTML = `<h3>nr=${nr}; ${u}</h3>`;
+  
+  fetch(u)
+  .then(response => response.text())
+  .then(data => console.log(1,data));  
+  
+  fetch(uu)
+  .then(response => response.text())
+  .then(data => console.log(2,data));  
+  
+  
 }
 </script>
 </head>
