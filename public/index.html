@@ -24,8 +24,9 @@ document.addEventListener("DOMContentLoaded",function(){
     //document.getElementById("info").textContent = "info";
 });
 const sn=(nr)=>{
-  let u = url+"?radio="+nr;
-  let uu = (window.location.search.split("=")[1] || url)+"?radio="+nr;
+  //http://192.168.31.115/radio?t=1
+  let u = url+"/radio?t="+nr;
+  let uu = (window.location.search.split("=")[1] || url)+"/radio?t="+nr;
     console.log("nr=",nr);
     console.log("u=",u);
     console.log("uu=",uu);
@@ -39,14 +40,14 @@ const sn=(nr)=>{
   fetch(uu)
   .then(response => response.text())
   .then(data => console.log(2,data));  
-  
+  /*
   fetch(u,{credentials: 'omit'})
   .then(response => response.text())
   .then(data => console.log(11,data));  
   
   fetch(uu,{credentials: 'omit'})
   .then(response => response.text())
-  .then(data => console.log(21,data));  
+  .then(data => console.log(21,data));  */
   
   
   
