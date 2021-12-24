@@ -14,6 +14,12 @@
 let info= "";
 let url = "http://192.168.31.115/";
 document.addEventListener("DOMContentLoaded",function(){
+  let urlObj = new URL(window.location.href);
+  url = urlObj.searchParams.get("url") || url;
+  console.log(url);
+  localStorage.setItem("url", url);
+  
+  
     info = document.getElementById("info");
     //document.getElementById("info").textContent = "info";
 });
