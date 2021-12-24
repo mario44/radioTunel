@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 const sn=(nr)=>{
   let u = url+"?radio="+nr;
-  let uu = (window.location.search.split("=")[1] || url);
+  let uu = (window.location.search.split("=")[1] || url)+"?radio="+nr;
     console.log("nr=",nr);
     console.log("u=",u);
     console.log("uu=",uu);
@@ -54,7 +54,7 @@ const sn=(nr)=>{
 </script>
 </head>
 <body>
-<h3>@git-app-mini 3</h3>
+<h3>@git-app-mini 4</h3>
 <div class="col">
   <button onClick="sn(1)">Radio-1</button>
   <button onClick="sn(2)">Radio-2</button>
