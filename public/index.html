@@ -40,12 +40,21 @@ const sn=(nr)=>{
   .then(response => response.text())
   .then(data => console.log(2,data));  
   
+  fetch(u,{credentials: 'omit'})
+  .then(response => response.text())
+  .then(data => console.log(11,data));  
+  
+  fetch(uu,{credentials: 'omit'})
+  .then(response => response.text())
+  .then(data => console.log(21,data));  
+  
+  
   
 }
 </script>
 </head>
 <body>
-<h3>@git-app-mini</h3>
+<h3>@git-app-mini 3</h3>
 <div class="col">
   <button onClick="sn(1)">Radio-1</button>
   <button onClick="sn(2)">Radio-2</button>
