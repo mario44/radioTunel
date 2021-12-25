@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-      <title>@radioTune1</title>
+      <title>@radioTune 2</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="HandheldFriendly" content="true">
 <meta name="mobile-web-app-capable" content="yes"> 
@@ -26,6 +26,10 @@ button.success {
   background-color: #13ce66;
   color: #fff;
 }
+button.info {
+  background-color: #369;
+  color: #fff;
+}
   </style>
   <script type = "text/javascript" src = "js/vue.js"></script>
   <script>
@@ -47,8 +51,9 @@ let streamsDEF =
 ];
 console.log(streamsDEF);
 </script>
-   </head>
-   <body>
+</head>
+  
+<body>
 
 
 <div id="app">
@@ -58,69 +63,106 @@ console.log(streamsDEF);
     </span>
     -->
     <div id="info"></div>
-  
+      <p>{{czas}} <b>{{opis}}</b></p>
       <h4>{{stacja}}/{{a}}, {{title}} = {{stream}} </h4>
-      <button class="success" v-on:click = "radiosend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>
-   
-  
+      <button class="info" v-on:click = "radiosend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>  
 </div>
      
      
 <script>
-var stacjeObject = new Vue({
-    el: '#app',
-    data: {
-        name:"radioTunel",
-        streams:streamsDEF,
-        //titles:["kot","pies","małpa","słoń","b","c","a","b","c","a","b","c"],
-        stacja:1,
-        stream: null,
-        title:  self.stacja,
-        a:0
-    },
-    methods : {
-       radiosend : function(event) {
-          let a = event.target.dataset.a;
-          let st = event.target.dataset.st;
-          let stream = event.target.dataset.stream;
-          let title  = event.target.textContent;
-          console.log(st,a,title,stream);
-          //console.log(this.stacja);
-          //
-          this.title=title;
-          this.a=a;
-          this.stacja=st;
-          this.stream=stream;
-          this.xradio();
-       },
-      xradio :  function() {
-        let nr = parseInt(this.stacja)-1;
-        let furl = "http://192.168.31.115/radio?t="+nr;
-        console.log("furl=",furl);
-        fetch(furl)
-        .then(r => {return r.text()})
-        .then(tx => {
-          console.log(tx);
-          let arr = tx.split("!");
-          console.log(arr);
-          let html = "<p>";
-          arr.forEach((a)=>{
-            html += a+"; ";
-          });
-          html += "</p>";
-          document.getElementById("info").innerHTML = html;
-        })
-        .catch(e => {console.log(e)})
-      },
-      render : function() {
-        this.stream = this.streams[1].s;
-        this.title = this.streams[1].n;        
-        
-      }
-    },
-    mounted() {
-      this.render();
-    }  
-});
+    var stacjeObject = new Vue({
+        el: '#app',
+        data: {
+            name:"radioTunel",
+            streams:streamsDEF,
+            //titles:["kot","pies","małpa","słoń","b","c","a","b","c","a","b","c"],
+            stacja:1,
+            stream: null,
+            title:  self.stacja,
+            a:0,
+            czas:(new Date()).toLocaleString()
+        },
+        created: function() {
+            this.iradio();
+            setInterval(()=>{
+                this.czas = (new Date()).toLocaleString();
+            },1000);
+            setInterval(()=>{
+                console.log("http://192.168.31.115/radio?n=0")
+                this.iradio();
+            },15000);
+          
+          
+        },
+        computed: {
+          opis: function () {
+            return "["+this.stacja + '. ' + this.title+"]";
+          }
+        },
+        methods : {
+           radiosend : function(event) {
+              let a = event.target.dataset.a;
+              let st = event.target.dataset.st;
+              let stream = event.target.dataset.stream;
+              let title  = event.target.textContent;
+              console.log(st,a,title,stream);
+              this.title=title;
+              this.a=a;
+              this.stacja=st;
+              this.stream=stream;
+              this.xradio();
+           },
+          iradio :  function() {
+            let nr = parseInt(this.stacja)-1;
+            let furl = "http://192.168.31.115/radio?n=0";
+            console.log("furl=",furl);
+            fetch(furl)
+            .then(r => {return r.text()})
+            .then(tx => {
+              console.log(tx);
+              let arr = tx.split("!");
+              console.log(arr);
+              let html = "<p>";
+              arr.forEach((a)=>{
+                html += a+"; ";
+              });
+              html += "</p>";
+              document.getElementById("info").innerHTML = html;
+            })
+            .catch(e => {console.log(e)})
+          },
+          xradio :  function() {
+            let nr = parseInt(this.stacja)-1;
+            let furl = "http://192.168.31.115/radio?t="+nr;
+            console.log("furl=",furl);
+            fetch(furl)
+            .then(r => {return r.text()})
+            .then(tx => {
+              console.log(tx);
+              let arr = tx.split("!");
+              console.log(arr);
+              let html = "<p>";
+              arr.forEach((a)=>{
+                html += a+"; ";
+              });
+              html += "</p>";
+              document.getElementById("info").innerHTML = html;
+            })
+            .catch(e => {console.log(e)})
+          },
+          render : function() {
+            this.stream = this.streams[1].s;
+            this.title = this.streams[1].n;        
+
+          }
+        },
+        mounted() {
+          this.render();
+        }  
+    });
   
 </script>
+  
+  
+</body>
+</html>
