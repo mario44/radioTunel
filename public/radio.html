@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-      <title>@radioTune 2</title>
+      <title>@radioTune 3</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="HandheldFriendly" content="true">
 <meta name="mobile-web-app-capable" content="yes"> 
@@ -22,7 +22,7 @@ button {
   font-family: "Verdana";
   cursor: pointer;
 }
-button.success {
+button.succ {
   background-color: #13ce66;
   color: #fff;
 }
@@ -30,7 +30,18 @@ button.info {
   background-color: #369;
   color: #fff;
 }
-  </style>
+
+  p {margin:0;}
+.wrap {
+    z-index: 2;
+    margin: auto;
+    padding: 0.5rem;
+    max-width: 800px;
+}  
+.col {
+    grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+}  
+</style>
   <script type = "text/javascript" src = "js/vue.js"></script>
   <script>
 let streamsDEF = 
@@ -56,16 +67,28 @@ console.log(streamsDEF);
 <body>
 
 
-<div id="app">
+<div id="app" class="wrap">
     <!--
     <span class="btn" v-for="i in 12">
       <button v-bind:data-st=`${i}`>bt-{{i}}</button>
     </span>
     -->
-    <div id="info"></div>
       <p>{{czas}} <b>{{opis}}</b></p>
+      <div id="info">{{infoVal}}</div>
+      
       <h4>{{stacja}}/{{a}}, {{title}} = {{stream}} </h4>
-      <button class="info" v-on:click = "radiosend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>  
+      <div class="col">
+        <button v-on:click = "infoRadio">Info()</button>
+        <button v-on:click = "volume('m')">Vol --</button>
+        <span>{{volumeVal}}</span>
+        <button v-on:click = "volume('p')">Vol ++</button>
+        <p>Number: <span>{{stacjaVal}}</span></p>
+        <button class="succ" v-on:click = "radiosend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>  
+      </div>
+      <div class="col">
+        <p>Strams:</p> 
+        <button class="info" v-on:click = "streamsend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>  
+     </div>
 </div>
      
      
@@ -75,21 +98,23 @@ console.log(streamsDEF);
         data: {
             name:"radioTunel",
             streams:streamsDEF,
-            //titles:["kot","pies","małpa","słoń","b","c","a","b","c","a","b","c"],
             stacja:1,
             stream: null,
             title:  self.stacja,
             a:0,
+            infoVal:"",
+            volumeVal:"0",
+            stacjaVal:1,
             czas:(new Date()).toLocaleString()
         },
         created: function() {
-            this.iradio();
+            this.infoRadio();
             setInterval(()=>{
                 this.czas = (new Date()).toLocaleString();
             },1000);
             setInterval(()=>{
                 console.log("http://192.168.31.115/radio?n=0")
-                this.iradio();
+                this.infoRadio();
             },15000);
           
           
@@ -100,6 +125,39 @@ console.log(streamsDEF);
           }
         },
         methods : {
+          volume : function(val) {
+              console.log(val);
+              let vurl = "http://192.168.31.115/radio?v="+val;
+              console.log("vurl=",vurl);
+              fetch(vurl)
+              .then(r => {return r.text()})
+              .then(tx => {
+                this.opisInfoRadio(tx);
+              })
+              .catch(e => {console.log(e)})            
+          },
+           streamsend : function(event) {
+              let a = event.target.dataset.a;
+              let st = event.target.dataset.st;
+              let stream = event.target.dataset.stream;
+              let title  = event.target.textContent;
+              console.log(st,a,title,stream);
+              this.title=title;
+              this.a=a;
+              this.stacja=st;
+              this.stream=stream;
+              this.xradio();
+             let surl = "http://192.168.31.115/radio?x="+encodeURIComponent(this.stream);
+            console.log("surl=",surl);
+            fetch(surl)
+            .then(r => {return r.text()})
+            .then(tx => {
+              //this.opisInfoRadio(tx);
+              this.infoRadio();
+              setTimeout(()=>{this.infoRadio();},5000);
+            })
+            .catch(e => {console.log(e)})
+           },
            radiosend : function(event) {
               let a = event.target.dataset.a;
               let st = event.target.dataset.st;
@@ -112,41 +170,44 @@ console.log(streamsDEF);
               this.stream=stream;
               this.xradio();
            },
-          iradio :  function() {
-            let nr = parseInt(this.stacja)-1;
-            let furl = "http://192.168.31.115/radio?n=0";
-            console.log("furl=",furl);
-            fetch(furl)
-            .then(r => {return r.text()})
-            .then(tx => {
-              console.log(tx);
+          opisInfoRadio :  function(tx) {
+            //console.log(tx);
               let arr = tx.split("!");
               console.log(arr);
-              let html = "<p>";
-              arr.forEach((a)=>{
+              //if (arr[4]) arr[4] = "<br /><b>"+arr[4]+"</b><br />";
+              this.stacjaVal = parseInt(arr[0])+1;
+              this.volumeVal = arr[1];
+              this.infoVal   = arr.join("; ");
+              //document.getElementById("info").innerHTML = "<p>"+ arr.join("; ")+"</p>";
+              //let html = "<p>";              
+              /*arr.forEach((a)=>{
                 html += a+"; ";
               });
               html += "</p>";
-              document.getElementById("info").innerHTML = html;
+              document.getElementById("info").innerHTML = html;*/            
+          },
+          infoRadio :  function() {
+            let nr = parseInt(this.stacja)-1;
+            let furl = "http://192.168.31.115/radio?n=0";
+            //console.log("furl=",furl);
+            fetch(furl)
+            .then(r => {return r.text()})
+            .then(tx => {
+              this.opisInfoRadio(tx);
+
             })
             .catch(e => {console.log(e)})
           },
           xradio :  function() {
             let nr = parseInt(this.stacja)-1;
             let furl = "http://192.168.31.115/radio?t="+nr;
-            console.log("furl=",furl);
+            //console.log("furl=",furl);
             fetch(furl)
             .then(r => {return r.text()})
             .then(tx => {
-              console.log(tx);
-              let arr = tx.split("!");
-              console.log(arr);
-              let html = "<p>";
-              arr.forEach((a)=>{
-                html += a+"; ";
-              });
-              html += "</p>";
-              document.getElementById("info").innerHTML = html;
+              this.opisInfoRadio(tx);
+              this.infoRadio();
+              setTimeout(()=>{this.infoRadio();},5000);
             })
             .catch(e => {console.log(e)})
           },
@@ -158,6 +219,9 @@ console.log(streamsDEF);
         },
         mounted() {
           this.render();
+        },
+        updated() {
+          console.log("updated");
         }  
     });
   
