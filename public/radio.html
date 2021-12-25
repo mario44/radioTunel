@@ -20,19 +20,38 @@ button.success {
   color: #fff;
 }
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script type = "text/javascript" src = "js/vue.js"></script>
+  <script>
+let streamsDEF = 
+[
+{},
+{"a":"0", "n": "TOK-FM","s":"http://pl-play.adtonos.com/tok-fm"},
+{"a":"0", "n": "RNS",   "s":"http://stream.rcs.revma.com/ypqt40u0x1zuv"},
+{"a":"0", "n": "357",   "s":"http://stream.rcs.revma.com/ye5kghkgcm0uv"},
+{"a":"2", "n": "SwissJazz","s":"http://stream.srg-ssr.ch/m/rsj/mp3_128"},
+{"a":"2", "n": "SwissClassic","s":"http://stream.srg-ssr.ch/m/rsc_de/mp3_128"},
+{"a":"2", "n": "ClassicFM", "s":"http://media-the.musicradio.com/ClassicFM"},
+{"a":"1", "n": "RMF_Cl","s":"http://www.rmfon.pl/n/rmfclassic.pls"},
+{"a":"1", "n": "Dwojka","s":"http://mp3.polskieradio.pl:8952/;"},
+{"a":"1", "n": "RockService","s":"http://stream.open.fm/379"},
+{"a":"1", "n": "101 Jazz","s":"https://ais-sa2.cdnstream1.com/b22139_128mp3"},
+{"a":"0", "n": "Szczecin","s":"http://stream4.nadaje.com:11986/prs.aac.m3u"},
+{"a":"0", "n": "Anty-Radio","s":"https://an.cdn.eurozet.pl/ant-waw.mp3"}
+];
+console.log(streamsDEF);
+</script>
    </head>
    <body>
 
 
 <div id="app">
   
-    <span class="btn" v-for="i in 10">
+    <span class="btn" v-for="i in 12">
       <button v-bind:data-st=`${i}`>bt-{{i}}</button>
     </span>
   
-      <h2> Stacja = {{stacja}}</h2>
-      <button class="success" v-on:click = "radiosend" v-for="i in 10" v-bind:data-st=`${i}`>{{name}} {{titles[i]}}</button>
+      <h4>{{stacja}}/{{a}}, {{title}} = {{stream}} </h4>
+      <button class="success" v-on:click = "radiosend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>
    
   
 </div>
@@ -42,16 +61,27 @@ button.success {
 var stacjeObject = new Vue({
     el: '#app',
     data: {
-        name:"Radio",
-        titles:["kot","pies","małpa","słoń","b","c","a","b","c","a","b","c"],
-        stacja:1
+        name:"radioTunel",
+        streams:streamsDEF,
+        //titles:["kot","pies","małpa","słoń","b","c","a","b","c","a","b","c"],
+        stacja:1,
+        stream: self.stacja,
+        title:  self.stacja,
+        a:0
     },
     methods : {
        radiosend : function(event) {
-          let st = event.target.dataset.st
-          console.log(st);
-          //console.log(this);
-          this.stacja=st
+          let a = event.target.dataset.a;
+          let st = event.target.dataset.st;
+          let stream = event.target.dataset.stream;
+          let title  = event.target.textContent;
+          console.log(st,a,title,stream);
+          console.log(this.stacja);
+          //console.log(self);
+          this.title=title;
+          this.a=a;
+          this.stacja=st;
+          this.stream=stream;
           //return this.total =  this.num1+ this.num2;
        }
     },  
