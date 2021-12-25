@@ -45,10 +45,12 @@ console.log(streamsDEF);
 
 
 <div id="app">
-  
+    <!--
     <span class="btn" v-for="i in 12">
       <button v-bind:data-st=`${i}`>bt-{{i}}</button>
     </span>
+    -->
+    <div id="info"></div>
   
       <h4>{{stacja}}/{{a}}, {{title}} = {{stream}} </h4>
       <button class="success" v-on:click = "radiosend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>
@@ -65,7 +67,7 @@ var stacjeObject = new Vue({
         streams:streamsDEF,
         //titles:["kot","pies","małpa","słoń","b","c","a","b","c","a","b","c"],
         stacja:1,
-        stream: self.stacja,
+        stream: null,
         title:  self.stacja,
         a:0
     },
@@ -76,15 +78,42 @@ var stacjeObject = new Vue({
           let stream = event.target.dataset.stream;
           let title  = event.target.textContent;
           console.log(st,a,title,stream);
-          console.log(this.stacja);
-          //console.log(self);
+          //console.log(this.stacja);
+          //
           this.title=title;
           this.a=a;
           this.stacja=st;
           this.stream=stream;
-          //return this.total =  this.num1+ this.num2;
-       }
-    },  
+          this.xradio();
+       },
+      xradio :  function() {
+        let nr = parseInt(this.stacja)-1;
+        let furl = "http://192.168.31.115/radio?t="+nr;
+        console.log("furl=",furl);
+        fetch(furl)
+        .then(r => {return r.text()})
+        .then(tx => {
+          console.log(tx);
+          let arr = tx.split("!");
+          console.log(arr);
+          let html = "<p>";
+          arr.forEach((a)=>{
+            html += a+"; ";
+          });
+          html += "</p>";
+          document.getElementById("info").innerHTML = html;
+        })
+        .catch(e => {console.log(e)})
+      },
+      render : function() {
+        this.stream = this.streams[1].s;
+        this.title = this.streams[1].n;        
+        
+      }
+    },
+    mounted() {
+      this.render();
+    }  
 });
   
 </script>
