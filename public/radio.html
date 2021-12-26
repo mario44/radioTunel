@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-      <title>@radioTune 3</title>
+      <title>@radioTune 5</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="HandheldFriendly" content="true">
 <meta name="mobile-web-app-capable" content="yes"> 
@@ -10,7 +10,22 @@
   
 <style>
  @charset "UTF-8";
-*,*::before,*::after {box-sizing: border-box;}   
+*,*::before,*::after {box-sizing: border-box;} 
+  body {
+    font-family: Verdana;
+    font-size: 14pt;
+    padding: 0;
+    margin: 0;  
+  }
+.wrap {
+    z-index: 2;
+    margin: auto;
+    padding: 0.35rem;
+    max-width: 800px;
+}  
+.col {
+    grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+}   
 button {
   padding: 10px 20px;
   border: 1px solid #ddd;
@@ -30,22 +45,21 @@ button.info {
   background-color: #369;
   color: #fff;
 }
-
-  p {margin:0;}
-.wrap {
-    z-index: 2;
-    margin: auto;
-    padding: 0.5rem;
-    max-width: 800px;
-}  
-.col {
-    grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
-}  
+button.active{
+  background-color:red!important;
+}    
+p {margin:0;}
+small {font-size:0.6em;}
+#info {
+    min-height: 1.5em;
+    background: #f4f4f4;
+    margin: 0.5em auto;  
+  }
+  
 </style>
   <script type = "text/javascript" src = "js/vue.js"></script>
   <script>
-let streamsDEF = 
-[
+let streamsDEF = [
 {},
 {"a":"0", "n": "TOK-FM","s":"http://pl-play.adtonos.com/tok-fm"},
 {"a":"0", "n": "RNS",   "s":"http://stream.rcs.revma.com/ypqt40u0x1zuv"},
@@ -60,7 +74,7 @@ let streamsDEF =
 {"a":"0", "n": "Szczecin","s":"http://stream4.nadaje.com:11986/prs.aac.m3u"},
 {"a":"0", "n": "Anty-Radio","s":"https://an.cdn.eurozet.pl/ant-waw.mp3"}
 ];
-console.log(streamsDEF);
+//console.log(streamsDEF);
 </script>
 </head>
   
@@ -68,26 +82,25 @@ console.log(streamsDEF);
 
 
 <div id="app" class="wrap">
-    <!--
-    <span class="btn" v-for="i in 12">
-      <button v-bind:data-st=`${i}`>bt-{{i}}</button>
-    </span>
-    -->
-      <p>{{czas}} <b>{{opis}}</b></p>
-      <div id="info">{{infoVal}}</div>
+    <p>{{czas}}</p>
+    <p><b>{{opis}}</b></p>
+      <div id="info">
+        {{infoVal}}
+      </div>
       
-      <h4>{{stacja}}/{{a}}, {{title}} = {{stream}} </h4>
+      <!--h4>{{stacja}}/{{a}}, {{title}} = {{stream}} </h4-->
       <div class="col">
-        <button v-on:click = "infoRadio">Info()</button>
-        <button v-on:click = "volume('m')">Vol --</button>
-        <span>{{volumeVal}}</span>
-        <button v-on:click = "volume('p')">Vol ++</button>
-        <p>Number: <span>{{stacjaVal}}</span></p>
-        <button class="succ" v-on:click = "radiosend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>  
+          <button v-on:click = "infoRadio">Info()</button>
+          <button v-on:click = "volume('m')">Vol --</button>
+          <span>{{volumeVal}}</span>
+          <button v-on:click = "volume('p')">Vol ++</button>
+        <hr />
+          <p>Number: <span>{{stacjaVal}}</span></p>
+          <button v-for="i in 10" class="succ" :class="{active: activeBtn1==='btn'+i }" v-on:click="radiosend" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}`>{{streams[i].n}}</button>  
       </div>
       <div class="col">
-        <p>Strams:</p> 
-        <button class="info" v-on:click = "streamsend" v-for="i in 10" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}` >{{streams[i].n}}</button>  
+        <p>Strams: <span><small>{{stream}}</small></span></p> 
+          <button v-for="i in 10" class="info" :class="{active: activeBtn2==='btn'+i }" v-on:click="streamsend" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}`>{{streams[i].n}}</button>  
      </div>
 </div>
      
@@ -96,9 +109,14 @@ console.log(streamsDEF);
     var stacjeObject = new Vue({
         el: '#app',
         data: {
+            url:"http://192.168.31.115/",
             name:"radioTunel",
+            activeBtn1:'',
+            activeBtn2:'',
             streams:streamsDEF,
             stacja:1,
+            nr:1,
+            RSSI:"dB",
             stream: null,
             title:  self.stacja,
             a:0,
@@ -113,7 +131,6 @@ console.log(streamsDEF);
                 this.czas = (new Date()).toLocaleString();
             },1000);
             setInterval(()=>{
-                console.log("http://192.168.31.115/radio?n=0")
                 this.infoRadio();
             },15000);
           
@@ -121,95 +138,79 @@ console.log(streamsDEF);
         },
         computed: {
           opis: function () {
-            return "["+this.stacja + '. ' + this.title+"]";
+            return "["+this.stacja + '. ' + this.title+ ", "+ this.RSSI+"dB]";
           }
         },
         methods : {
           volume : function(val) {
               console.log(val);
-              let vurl = "http://192.168.31.115/radio?v="+val;
-              console.log("vurl=",vurl);
-              fetch(vurl)
-              .then(r => {return r.text()})
-              .then(tx => {
-                this.opisInfoRadio(tx);
-              })
-              .catch(e => {console.log(e)})            
+              this.radioFETCH("v="+val);
+              this.refreshInfo(1);
           },
            streamsend : function(event) {
               let a = event.target.dataset.a;
               let st = event.target.dataset.st;
               let stream = event.target.dataset.stream;
               let title  = event.target.textContent;
-              console.log(st,a,title,stream);
+              this.activeBtn2 = "btn"+st;
+              this.activeBtn1 =""; 
               this.title=title;
               this.a=a;
               this.stacja=st;
               this.stream=stream;
-              this.xradio();
-             let surl = "http://192.168.31.115/radio?x="+encodeURIComponent(this.stream);
-            console.log("surl=",surl);
-            fetch(surl)
-            .then(r => {return r.text()})
-            .then(tx => {
-              //this.opisInfoRadio(tx);
-              this.infoRadio();
-              setTimeout(()=>{this.infoRadio();},5000);
-            })
-            .catch(e => {console.log(e)})
+              //this.radioFETCH("x="+encodeURIComponent(this.stream));
+              this.radioFETCH("x="+this.stream);
+             this.refreshInfo(6);
            },
            radiosend : function(event) {
               let a = event.target.dataset.a;
               let st = event.target.dataset.st;
               let stream = event.target.dataset.stream;
               let title  = event.target.textContent;
-              console.log(st,a,title,stream);
+              console.log("193 st="+st,a,title,stream);
+              this.activeBtn1 = "btn"+st;
+              this.activeBtn2 ="";             
               this.title=title;
               this.a=a;
               this.stacja=st;
+              this.nr = parseInt(this.stacja)-1;
               this.stream=stream;
-              this.xradio();
+              this.radioFETCH("t="+this.nr);
+             this.refreshInfo(5);
            },
           opisInfoRadio :  function(tx) {
-            //console.log(tx);
               let arr = tx.split("!");
-              console.log(arr);
+              //console.log(arr);
               //if (arr[4]) arr[4] = "<br /><b>"+arr[4]+"</b><br />";
-              this.stacjaVal = parseInt(arr[0])+1;
+              this.stacja     = arr[0];
+              this.stacjaVal  = parseInt(arr[0])+1;
+              this.title      = this.streams[this.stacjaVal].n;           
+              //this.activeBtn1 = "btn"+this.stacjaVal;
               this.volumeVal = arr[1];
-              this.infoVal   = arr.join("; ");
-              //document.getElementById("info").innerHTML = "<p>"+ arr.join("; ")+"</p>";
-              //let html = "<p>";              
-              /*arr.forEach((a)=>{
-                html += a+"; ";
-              });
-              html += "</p>";
-              document.getElementById("info").innerHTML = html;*/            
+              this.RSSI      = arr[2];
+              //this.infoVal   = arr.join("; ");         
+              this.infoVal   = arr[4]; 
+              //console.log(this.stacja,this.stacjaVal,this.title);             
           },
           infoRadio :  function() {
-            let nr = parseInt(this.stacja)-1;
-            let furl = "http://192.168.31.115/radio?n=0";
-            //console.log("furl=",furl);
-            fetch(furl)
+            this.radioFETCH("n=0");
+          },
+          radioFETCH :  function(param) {
+            let url = this.url+"radio?"+param;
+            //console.log("225 radioFETCH===",param,"url="+url);           
+            fetch(url)
             .then(r => {return r.text()})
             .then(tx => {
-              this.opisInfoRadio(tx);
-
+             this.opisInfoRadio(tx);
+              //this.infoRadio();
+              //
+              //setTimeout(()=>{this.infoRadio();},5000);
             })
             .catch(e => {console.log(e)})
           },
-          xradio :  function() {
-            let nr = parseInt(this.stacja)-1;
-            let furl = "http://192.168.31.115/radio?t="+nr;
-            //console.log("furl=",furl);
-            fetch(furl)
-            .then(r => {return r.text()})
-            .then(tx => {
-              this.opisInfoRadio(tx);
-              this.infoRadio();
-              setTimeout(()=>{this.infoRadio();},5000);
-            })
-            .catch(e => {console.log(e)})
+          refreshInfo: function(sek=5) {
+            console.log("refreshInfo="+sek);
+              setTimeout(()=>{this.infoRadio();},5*sek);
           },
           render : function() {
             this.stream = this.streams[1].s;
@@ -221,7 +222,7 @@ console.log(streamsDEF);
           this.render();
         },
         updated() {
-          console.log("updated");
+          //console.log("updated=","0="+this.activeBtn0,"1="+this.activeBtn1,"2="+this.activeBtn2);
         }  
     });
   
