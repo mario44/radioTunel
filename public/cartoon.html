@@ -1,6 +1,6 @@
 <html lang="pl"><head>
 <meta charset="utf-8">
-<title>@miniTunel</title>
+<title>#cartoonTunnel</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="HandheldFriendly" content="true">
 <meta name="mobile-web-app-capable" content="yes"> 
@@ -87,7 +87,13 @@ console.log("urlDEF=",urlDEF);
 localStorage.setItem("urlDEF", urlDEF); 
 let url = urlDEF;
   
+const removeActive=(dom)=>{
+  $$(dom).forEach((e)=>e.classList.remove("active"));
+}
+
 const radioSlij=(el)=>{
+    removeActive("div.radia button")
+    el.target.classList.add("active");
     let data = el.target.dataset;
     $("#name").textContent = data.n;
     $("#stream").textContent = data.stream;
@@ -134,7 +140,7 @@ document.addEventListener("DOMContentLoaded",function(){
 
 
 <div id="app" class="wrap">
-    <p>radioTunnel</p> 
+    <p>cartoonTunnel</p> 
     <p><b>[<span id="name"></span>, <span id="rsid"></span>dB]</b></p> 
     <div id="info"></div> 
     <div class="col">
