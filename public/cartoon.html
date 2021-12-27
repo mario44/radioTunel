@@ -44,7 +44,7 @@ button.warn {
   color: #000;
 }
 button.navy {
-  background-color: navy;
+  background-color: darkviolet;
   color: white;
 }
 button.info {
@@ -80,7 +80,8 @@ let streamsDEF = [
 {"a":"1", "n": "RockService","s":"http://stream.open.fm/379"},
 {"a":"1", "n": "101 Jazz","s":"https://ais-sa2.cdnstream1.com/b22139_128mp3"},
 {"a":"0", "n": "Szczecin","s":"http://stream4.nadaje.com:11986/prs.aac.m3u"},
-{"a":"0", "n": "Anty-Radio","s":"https://an.cdn.eurozet.pl/ant-waw.mp3"},
+{"a":"0", "n": "Anty-Radio","s":"http://www.emsoft.ct8.pl/inne/anty.m3u"},
+{"a":"0", "n": "Campus","s":"http://193.0.98.66:8002/listen.pls"},
 {"a":"0", "n": "PR24","s":"http://stream3.polskieradio.pl:8480/listen.pls"},
 {"a":"0", "n": "Szczecin Plus","s":"http://waw01-01.ic.smcdn.pl:8000/4260-1.aac.m3u"},
 {"a":"0", "n": "Szczecin Eska","s":"http://waw01-01.ic.smcdn.pl:8000/2260-1.aac.m3u"},
@@ -152,7 +153,9 @@ document.addEventListener("DOMContentLoaded",function(){
     <div id="info"></div> 
     <div class="col">
         <button onClick='refreshInfo(0);' class="navy">Info()</button> 
-        <button onClick='radioFETCH("v=m");refreshInfo(2);'>Vol --</button> <span id="vol">0</span>  <button onClick='radioFETCH("v=p");refreshInfo(2);'>Vol ++</button> 
+        <button onClick='radioFETCH("v=m");refreshInfo(2);'>Vol --</button> 
+            <span id="vol">0</span>  
+        <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button> 
         <hr> 
         <p>Host: <small><span id="stream"></span></small></p> 
         <div class="radia"></div>
