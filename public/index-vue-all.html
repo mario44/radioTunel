@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="utf-8">
-<title>@radioTunel</title>
+      <title>@radioTune</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="HandheldFriendly" content="true">
 <meta name="mobile-web-app-capable" content="yes"> 
@@ -61,12 +61,11 @@ small {font-size:0.6em;}
   }
   
 </style>
-<!--script type = "text/javascript" src = "js/vue.js"></script-->
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-  
-<script>
-  
+  <!--script type = "text/javascript" src = "js/vue.js"></script-->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script>
 let streamsDEF = [
+//{},
 {"a":"0", "n": "TOK-FM","s":"http://pl-play.adtonos.com/tok-fm"},
 {"a":"0", "n": "RNS",   "s":"http://stream.rcs.revma.com/ypqt40u0x1zuv"},
 {"a":"0", "n": "357",   "s":"http://stream.rcs.revma.com/ye5kghkgcm0uv"},
@@ -81,13 +80,6 @@ let streamsDEF = [
 {"a":"0", "n": "Anty-Radio","s":"https://an.cdn.eurozet.pl/ant-waw.mp3"}
 ];
 //console.log(streamsDEF);
-  
-let urlDEF = "/";  
-let urlObj = new URL(window.location.href);
-urlDEF = urlObj.searchParams.get("url") || urlDEF;
-console.log("urlDEF=",urlDEF);
-localStorage.setItem("urlDEF", urlDEF); 
-  
 </script>
 </head>
   
@@ -101,17 +93,23 @@ localStorage.setItem("urlDEF", urlDEF);
         {{infoVal}}
       </div>
       
-      
+      <!--h4>{{stacja}}/{{a}}, {{title}} = {{stream}} </h4-->
       <div class="col">
           <button v-on:click = "infoRadio">Info()</button>
           <button v-on:click = "volume('m')">Vol --</button>
           <span>{{volumeVal}}</span>
           <button v-on:click = "volume('p')">Vol ++</button>
         <hr />
-        <p>Host: <span><small>{{stream}}</small></span></p> 
-        <button v-for="(s,i) in streams" class="info" v-bind:class="{active: activeBtn0==='btn'+i }" v-on:click="HostSend" v-bind:data-st=i v-bind:data-n="s.n" v-bind:data-a="s.a" v-bind:data-stream="s.s">{{s.n}}</button>  
-        
-        
+        <p>Stramsy: <span><small>{{stream}}</small></span></p> 
+          <button v-for="(s,i) in streams" class="warn" v-bind:class="{active: activeBtn0==='btn'+s.i }" v-on:click="streamsend" v-bind:data-st=i v-bind:data-n="s.n" v-bind:data-a="s.a" v-bind:data-stream="s.s">{{s.n}}</button>  
+        <hr />  
+        <p>Number: <span>{{stacjaVal}}</span></p>
+          <button v-for="(s,i) in streams" class="succ" v-bind:class="{active: activeBtn1==='btn'+i }" v-on:click="radiosend" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}`>{{streams[i].n}}</button>  
+      </div>
+      <div class="col">
+        <p>Strams: <span><small>{{stream}}</small></span></p> 
+          <button v-for="(s,i) in streams" class="info" v-bind:class="{active: activeBtn2==='btn'+i }" v-on:click="streamsend" v-bind:data-st=`${i}` v-bind:data-a=`${streams[i].a}` v-bind:data-stream=`${streams[i].s}`>{{streams[i].n}}</button>  
+     </div>
 </div>
      
      
@@ -122,16 +120,15 @@ localStorage.setItem("urlDEF", urlDEF);
             url:"http://192.168.31.115/",
             name:"radioTunel",
             activeBtn0:'',
-            //activeBtn0:'btn0',
-            //activeBtn1:'',
-            //activeBtn2:'',
+            activeBtn1:'',
+            activeBtn2:'',
             streams:streamsDEF,
             stacja:1,
-            //nr:1,
-            //ii:1,
+            nr:1,
+            ii:1,
             RSSI:"$",
-            stream: streamsDEF[0].s,
-            title:  "",//self.stacja,
+            stream: null,
+            title:  self.stacja,
             a:0,
             infoVal:"",
             volumeVal:"0",
@@ -159,45 +156,79 @@ localStorage.setItem("urlDEF", urlDEF);
           },
         },
         methods : {
+           dodaj : function() {
+             return this.ii++;
+          },
           volume : function(val) {
               console.log(val);
               this.radioFETCH("v="+val);
               this.refreshInfo(1);
           },
-          /************** button event **************************************/ 
-          HostSend : function(event) {
-              this.a = event.target.dataset.a || this.a;
-              this.title  = event.target.textContent  || this.title;
-              this.stream = event.target.dataset.stream || this.stream;
-              let st = event.target.dataset.st;              
+           streamsend : function(event) {
+              let a = event.target.dataset.a;
+              let st = event.target.dataset.st;
+              let stream = event.target.dataset.stream;
+              let title  = event.target.textContent;
               this.stacja=parseInt(st)+1;
               this.activeBtn0 = "btn"+st;
-             this.radioFETCH("x="+this.stream);
+              this.activeBtn2 = "btn"+st;
+              this.activeBtn1 =""; 
+              this.title=title;
+              this.a=a;
+              this.stacja=parseInt(st)+1;
+              this.stream=stream;
+              //this.radioFETCH("x="+encodeURIComponent(this.stream));
+              this.radioFETCH("x="+this.stream);
+             this.refreshInfo(6);
+           },
+           radiosend : function(event) {
+              let a = event.target.dataset.a;
+              let st = event.target.dataset.st;
+              let stream = event.target.dataset.stream;
+              let title  = event.target.textContent;
+              console.log("193 st="+st,a,title,stream);
+              this.activeBtn1 = "btn"+st;
+              this.activeBtn2 ="";             
+              this.title=title;
+              this.a=a;
+              this.stacja=st;
+              this.nr = parseInt(this.stacja)-0;
+              this.stream=stream;
+              this.radioFETCH("t="+this.nr);
              this.refreshInfo(5);
            },
-          /****************************************************/
           opisInfoRadio :  function(tx) {
               let arr = tx.split("!");
               console.log(arr);
+              //if (arr[4]) arr[4] = "<br /><b>"+arr[4]+"</b><br />";
               this.stacja     = arr[0];
               this.stacjaVal  = parseInt(arr[0])+1;
+              //this.title      = this.streams[this.stacjaVal].n;           
+              //this.activeBtn1 = "btn"+this.stacjaVal;
               this.volumeVal = arr[1];
-              this.RSSI      = arr[2];       
-              this.infoVal   = arr[4];                
+              this.RSSI      = arr[2];
+              //this.infoVal   = arr.join("; ");         
+              this.infoVal   = arr[4]; 
+              //console.log(this.stacja,this.stacjaVal,this.title);             
           },
           infoRadio :  function() {
             this.radioFETCH("n=0");
           },
           radioFETCH :  function(param) {
-            let url = this.url+"radio?"+param;          
+            let url = this.url+"radio?"+param;
+            //console.log("225 radioFETCH===",param,"url="+url);           
             fetch(url)
             .then(r => {return r.text()})
             .then(tx => {
-             this.opisInfoRadio(tx);              
+             this.opisInfoRadio(tx);
+              //this.infoRadio();
+              //
+              //setTimeout(()=>{this.infoRadio();},5000);
             })
             .catch(e => {console.log(e)})
           },
           refreshInfo: function(sek=5) {
+            console.log("refreshInfo="+sek);
               setTimeout(()=>{this.infoRadio();},5*sek);
           },
           render : function() {
@@ -207,7 +238,7 @@ localStorage.setItem("urlDEF", urlDEF);
           }
         },
         mounted() {
-          //this.render();
+          this.render();
         },
         updated() {
           //console.log("updated=","0="+this.activeBtn0,"1="+this.activeBtn1,"2="+this.activeBtn2);
