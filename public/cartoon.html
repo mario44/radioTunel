@@ -31,7 +31,7 @@ button {
   color: #fff;
   margin:0.2em;
   border-radius: 0.8em;
-  font-size: 12pt;
+  font-size: 12pt; 
   font-family: "Verdana";
   cursor: pointer;
 }
@@ -51,6 +51,11 @@ button.info {
   background-color: #369;
   color: #fff;
 }
+  button.gitt {
+  background-color: #2da44e;
+  color: #fff;
+}
+  
 button.active{
   background-color:red!important;
 }    
@@ -153,7 +158,7 @@ document.addEventListener("DOMContentLoaded",function(){
     <div id="info"></div> 
     <div class="col">
         <button onClick='refreshInfo(0);' class="navy">Info()</button> 
-        <button onClick='radioFETCH("v=m");refreshInfo(2);'>Vol --</button> 
+        <button onClick='radioFETCH("v=m");refreshInfo(2);'class="gitt">Vol --</button> 
             <span id="vol">0</span>  
         <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button> 
         <hr> 
