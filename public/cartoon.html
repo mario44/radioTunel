@@ -43,6 +43,10 @@ button.warn {
   background-color: orange;
   color: #000;
 }
+button.navy {
+  background-color: navy;
+  color: white;
+}
 button.info {
   background-color: #369;
   color: #fff;
@@ -147,7 +151,7 @@ document.addEventListener("DOMContentLoaded",function(){
     <p><b>[<span id="name"></span>, <span id="rsid"></span>dB]</b></p> 
     <div id="info"></div> 
     <div class="col">
-        <button onClick='refreshInfo(0);' class="warn">Info()</button> 
+        <button onClick='refreshInfo(0);' class="navy">Info()</button> 
         <button onClick='radioFETCH("v=m");refreshInfo(2);'>Vol --</button> <span id="vol">0</span>  <button onClick='radioFETCH("v=p");refreshInfo(2);'>Vol ++</button> 
         <hr> 
         <p>Host: <small><span id="stream"></span></small></p> 
