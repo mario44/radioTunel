@@ -99,6 +99,11 @@ urlDEF = urlObj.searchParams.get("url") || urlDEF;
 console.log("urlDEF=",urlDEF);
 localStorage.setItem("urlDEF", urlDEF); 
 let url = urlDEF;
+
+const checkForError = response => {
+  if (!response.ok) throw Error(response.statusText);
+  return response.json();
+};
   
 const removeActive=(dom)=>{
   $$(dom).forEach((e)=>e.classList.remove("active"));
@@ -128,6 +133,7 @@ const opisInfoRadio=(tx)=>{
 const radioFETCH=(param) =>{
     let u = url+"radio?"+param; 
     fetch(u)
+    .then(checkForError)
     .then(r => {return r.text()})
     .then(tx => {
         opisInfoRadio(tx);  
