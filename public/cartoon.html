@@ -169,7 +169,20 @@ document.addEventListener("DOMContentLoaded",function(){
         <p>Host: <small><span id="stream"></span></small></p> 
         <div class="radia"></div>
         <hr />
-      <button onclick="radioFETCH("v=z");" class="warn">Zapisz preferencje</button>
+      <button onclick='radioFETCH("v=z");' class="warn">Zapisz preferencje</button>
+      <button onclick='radioFETCH("v=r");' class="warn">Reboot</button>
+      <button onClick='radioFETCH("r=1")'>Replay</button>
+      <br />
+       
+     <div class="grid col small eq">
+        <button onClick='radioFETCH("q=0");'>Mowa</button>
+        <button onClick='radioFETCH("q=1");'>Muzyka</button>
+        <button onClick='radioFETCH("q=2");'>Jazz</button>
+        <button onClick='radioFETCH("q=3");'>Classic</button>
+        <button onClick='radioFETCH("q=4");'>Flat</button>
+     </div>      
+      
+      
     </div>
 </div>
 </body>
