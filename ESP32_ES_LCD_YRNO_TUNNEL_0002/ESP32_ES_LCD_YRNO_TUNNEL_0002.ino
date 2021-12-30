@@ -73,6 +73,7 @@ char   znakS = (char)223;
 char extraInfo[64];
 bool isSD        = false;
 
+String hostURL = "";
 char* indexPath = "/radioTunel/public/cartoon.html";
 
 WiFiMulti wifiMulti;
@@ -86,7 +87,7 @@ Preferences preferences;
 
 //----------------------------------------------------------------------------------------------------------------------
 void onScreens(const char *linia1, const char *linia2, int lineNR){
-  clio.drukLCD(linia2);
+  //clio.drukLCD(linia2);
   Serial.printf("======================================\n %u :: %s:: %s\n", lineNR,linia1,linia2);
 }
 
@@ -114,6 +115,8 @@ void pogoda2LCD(){
       
       if (loopa==1) clio.println(radioBuffer1,0);
       if (loopa==3) clio.println(clio.getClock(),0);
+      //if (loopa==2) clio.println(hostURL,0);
+      
       
       loopa = (loopa+1) % 7;
 /*
@@ -205,7 +208,8 @@ void savePreferences(){
          preferences.begin("my-app", false);
          preferences.putUInt("cur_volume", cur_volume);
          preferences.putUInt("cur_station", cur_station);
-         preferences.putUInt("cur_equalizer", cur_equalizer);         
+         preferences.putUInt("cur_equalizer", cur_equalizer);  
+         preferences.putString("hostURL", hostURL);     
          preferences.end();
 }  
   
@@ -226,6 +230,10 @@ void setup()
           cur_station   = preferences.getUInt("cur_station", 1);
           cur_volume    = preferences.getUInt("cur_volume", cur_volume_DEF);
           cur_equalizer = preferences.getUInt("cur_equalizer", 0);
+          hostURL       = preferences.getString("hostURL","http://pl-play.adtonos.com/tok-fm");
+          Serial.println("#234 preferences.hostURL==="); 
+          Serial.println(hostURL); 
+          Serial.println(" ===========");
           preferences.end();
  
     Serial.println("\r\nStart...");
@@ -378,7 +386,7 @@ void audio_showstation(const char *info){
     //Serial.print("station     ");Serial.println(info);
     onScreens("audio_showstation::",String(info).c_str(),326);
     radioBuffer1 = String(info).substring(0,16);
-    radioBuffer2 = String(info).substring(16,32);
+    //radioBuffer2 = String(info).substring(16,32);
     es_volume(volume);
 }
 void audio_showstreaminfo(const char *info){
@@ -386,7 +394,7 @@ void audio_showstreaminfo(const char *info){
     //Serial.print("streaminfo  ");Serial.println(info);
     onScreens("streaminfo::",String(info).c_str(),187);
     radioBuffer1 = String(info).substring(0,16);
-    radioBuffer2 = String(info).substring(16,32);
+    //radioBuffer2 = String(info).substring(16,32);
 }
 void audio_showstreamtitle(const char *info){
   snprintf(extraInfo, 64, info);
@@ -422,7 +430,7 @@ String getRadioInfo(){
     radioBuffer1 = extraInfo;
     radioBuffer2 = s;
 
-  return n+sep+v+sep+ri+sep+s+sep+String(extraInfo)+sep+q;
+  return n+sep+v+sep+ri+sep+s+sep+String(extraInfo)+sep+q+sep+hostURL;
 }
 
 
@@ -454,6 +462,22 @@ void audio_SetStationNr(String ParamValue){
 
 //#define isint(X) (!((X)==(X)))
 
+void audio_SetStationUrl(const String ParamValue){
+        hostURL = ParamValue;
+          Serial.println("#549 audio_SetStationUrl hostURL==="); 
+          Serial.println(hostURL); 
+
+      //onScreens(("Url="+String(ParamValue)),483);
+      audio.stopSong();
+      es_volume(0);
+      audio.setVolume(0);
+      delay(333);
+      audio.connecttohost(ParamValue.c_str());
+      audio.setVolume(cur_volume);
+      es_volume(volume);
+      savePreferences();
+}
+
 void audio_ChangeStation(String ParamValue){
     //int valu = ParamValue.toInt();
     Serial.println('+++++++++++++++++++++');
@@ -480,7 +504,9 @@ void playCurStation(){
         const char* stacjaNazwa = CoJestGrane.c_str();
         Serial.print("#473 stacjaNazwa=");Serial.println(stacjaNazwa);
             
-    audio.connecttohost(clio.radia[cur_station].stream);
+    audio.connecttohost(hostURL.c_str());
+    //???????????????????????????????????????????????????????//
+    //audio.connecttohost(clio.radia[cur_station].stream);
     clio.println(("Stacja="+String(clio.radia[cur_station].info)).c_str(),0);   
     //onScreens("cur_station",("Station="+String(cur_station)).c_str(),423);
     Serial.print("clio.radia=");
@@ -537,16 +563,6 @@ void audio_SetEQ(String ParamValue){
       //????????????????????????????????????????????????????????????????????????????????????????????????????
 }
 
-void audio_SetStationUrl(const String ParamValue){
-      //onScreens(("Url="+String(ParamValue)),483);
-      audio.stopSong();
-      es_volume(0);
-      audio.setVolume(0);
-      delay(333);
-      audio.connecttohost(ParamValue.c_str());
-      audio.setVolume(cur_volume);
-      es_volume(volume);
-}
 
 
 void esp_reBootSleep(const String ParamValue){
