@@ -66,7 +66,7 @@ small {font-size:0.6em;}
     background: #f4f4f4;
     margin: 0.5em auto;  
   }
-  
+div.eq button {font-size:0.8em;]  
 </style>
 
 <script>
@@ -168,13 +168,14 @@ document.addEventListener("DOMContentLoaded",function(){
         <hr> 
         <p>Host: <small><span id="stream"></span></small></p> 
         <div class="radia"></div>
-        <hr />
-      <button onclick='radioFETCH("v=z");' class="warn">Zapisz preferencje</button>
-      <button onclick='radioFETCH("v=r");' class="warn">Reboot</button>
-      <button onClick='radioFETCH("r=1")'>Replay</button>
-      <br />
+      
+     <div class="admi">
+          <button onclick='radioFETCH("v=z");' class="warn">Zapisz preferencje</button>
+          <button onclick='radioFETCH("v=r");' class="warn">Reboot</button>
+          <button onClick='radioFETCH("r=1")'  class="warn">Replay</button>
+     </div> 
        
-     <div class="grid col small eq">
+     <div class="eq">
         <button onClick='radioFETCH("q=0");'>Mowa</button>
         <button onClick='radioFETCH("q=1");'>Muzyka</button>
         <button onClick='radioFETCH("q=2");'>Jazz</button>
