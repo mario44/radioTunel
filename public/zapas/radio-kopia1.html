@@ -128,7 +128,7 @@ console.log(streamsDEF);
                 this.czas = (new Date()).toLocaleString();
             },1000);
             setInterval(()=>{
-                console.log("http://192.168.31.115/radio?n=0")
+                console.log("http://192.168.0.5/radio?n=0")
                 this.infoRadio();
             },15000);
           
@@ -142,7 +142,7 @@ console.log(streamsDEF);
         methods : {
           volume : function(val) {
               console.log(val);
-              let vurl = "http://192.168.31.115/radio?v="+val;
+              let vurl = "http://192.168.0.5/radio?v="+val;
               console.log("vurl=",vurl);
               fetch(vurl)
               .then(r => {return r.text()})
@@ -175,7 +175,7 @@ console.log(streamsDEF);
               this.stacja=st;
               this.stream=stream;
               this.xradio();
-             let surl = "http://192.168.31.115/radio?x="+encodeURIComponent(this.stream);
+             let surl = "http://192.168.0.5/radio?x="+encodeURIComponent(this.stream);
             console.log("surl=",surl);
             fetch(surl)
             .then(r => {return r.text()})
@@ -217,7 +217,7 @@ console.log(streamsDEF);
           },
           infoRadio :  function() {
             let nr = parseInt(this.stacja)-1;
-            let furl = "http://192.168.31.115/radio?n=0";
+            let furl = "http://192.168.0.5/radio?n=0";
             //console.log("furl=",furl);
             fetch(furl)
             .then(r => {return r.text()})
@@ -229,7 +229,7 @@ console.log(streamsDEF);
           },
           xradio :  function() {
             let nr = parseInt(this.stacja)-1;
-            let furl = "http://192.168.31.115/radio?t="+nr;
+            let furl = "http://192.168.0.5/radio?t="+nr;
             //console.log("furl=",furl);
             fetch(furl)
             .then(r => {return r.text()})
