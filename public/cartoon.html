@@ -122,9 +122,12 @@ const refreshInfo=(sek=5)=> {
 const opisInfoRadio=(tx)=>{
   let arr = tx.split("!");
   console.log(arr);
-  $("#info").textContent = arr[4];
-  $("#vol").textContent = arr[1];
-  $("#rsid").textContent = arr[2];
+<!--  $("#info").textContent = arr[4]; -->
+<!--  $("#vol").textContent = arr[1]; -->
+<!--  $("#rsid").textContent = arr[2]; -->
+
+   $("#vol").textContent = arr[0];
+   $("#rsid").textContent = arr[1];
 }
 const checkForError = response => {
   if (!response.ok) throw Error(response.statusText);
