@@ -1,1 +1,218 @@
+<!DOCTYPE html>
+<html lang="pl"><head>
+<meta charset="utf-8">
+<title>#ESP32-A1S-TunnelRadio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="mobile-web-app-capable" content="yes"> 
+<meta name="theme-color" content="#214960">
+  
+<style>
+ 
+*,*::before,*::after {box-sizing: border-box;} 
+  body {
+    font-family: Verdana;
+    font-size: 14pt;
+    padding: 0;
+    margin: 0;  
+  }
+.wrap {
+    z-index: 2;
+    margin: auto;
+    padding: 0.35rem;
+    max-width: 800px;
+}  
+.col {
+    grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+}   
+button {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background-color: #50bfff;
+  color: #fff;
+  margin:0.2em;
+  border-radius: 0.8em;
+  font-size: 12pt; 
+  font-family: "Verdana";
+  cursor: pointer;
+}
+button.succ {
+  background-color: #13ce66;
+  color: #fff;
+}
+button.warn {
+  background-color: orange;
+  color: #000;
+}
+button.navy {
+  background-color: darkviolet;
+  color: white;
+}
+button.info {
+  background-color: #369;
+  color: #fff;
+}
+  button.gitt {
+  background-color: #2da44e;
+  color: #fff;
+}
+  
+button.active{
+  background-color:red!important;
+}    
+p {margin:0;}
+small {font-size:0.6em;}
+#info {
+    min-height: 1.5em;
+    background: #f4f4f4;
+    margin: 0.5em auto;  
+  }
+  div.eq button {font-size:0.8em;padding: 0.5em;background:#e06;}
 
+#apptext {
+color: transparent;
+background: #666666;
+-webkit-background-clip: text;
+-moz-background-clip: text;
+background-clip: text;
+text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
+}
+  
+</style>
+
+<script>
+const $=e=>document.querySelector(e);
+const $$=e=>document.querySelectorAll(e);
+  
+let streamsDEF = [
+{"a":"0", "n": "RMF BALLADY","s":"http://31.192.216.7:8000/rmf_nostalgia"},
+{"a":"0", "n": "RMF-FM","s":"http://195.150.20.243:8000/rmf_fm"},
+{"a":"0", "n": "TOK-FM","s":"http://pl-play.adtonos.com/tok-fm"},
+{"a":"0", "n": "RNS",   "s":"http://stream.rcs.revma.com/ypqt40u0x1zuv"},
+{"a":"0", "n": "357",   "s":"http://stream.rcs.revma.com/ye5kghkgcm0uv"},
+{"a":"2", "n": "SwissJazz","s":"http://stream.srg-ssr.ch/m/rsj/mp3_128"},
+{"a":"2", "n": "SwissClassic","s":"http://stream.srg-ssr.ch/m/rsc_de/mp3_128"},
+{"a":"2", "n": "ClassicFM", "s":"http://media-the.musicradio.com/ClassicFM"},
+{"a":"1", "n": "RMF Classic","s":"http://www.rmfon.pl/n/rmfclassic.pls"},
+{"a":"1", "n": "Dwojka","s":"http://mp3.polskieradio.pl:8952/;"},
+{"a":"1", "n": "RockService","s":"http://stream.open.fm/379"},
+{"a":"1", "n": "101 Jazz","s":"https://ais-sa2.cdnstream1.com/b22139_128mp3"},
+{"a":"0", "n": "Szczecin","s":"http://stream4.nadaje.com:11986/prs.aac.m3u"},
+{"a":"0", "n": "Anty-Radio","s":"http://www.emsoft.ct8.pl/inne/anty.m3u"},
+{"a":"0", "n": "Campus","s":"http://193.0.98.66:8002/listen.pls"},
+{"a":"0", "n": "PR24","s":"http://stream3.polskieradio.pl:8480/listen.pls"},
+{"a":"0", "n": "Szczecin Plus","s":"http://waw01-01.ic.smcdn.pl:8000/4260-1.aac.m3u"},
+{"a":"0", "n": "Szczecin Eska","s":"http://waw01-01.ic.smcdn.pl:8000/2260-1.aac.m3u"},
+];
+//console.log(streamsDEF);
+  
+let urlDEF = "/";  
+let urlObj = new URL(window.location.href);
+urlDEF = urlObj.searchParams.get("url") || urlDEF;
+console.log("urlDEF=",urlDEF);
+localStorage.setItem("urlDEF", urlDEF); 
+let url = urlDEF;
+  
+const removeActive=(dom)=>{
+  $$(dom).forEach((e)=>e.classList.remove("active"));
+}
+
+const radioSlij=(el)=>{
+    removeActive("div.radia button")
+    el.target.classList.add("active");
+    let data = el.target.dataset;
+    $("#name").textContent = data.n;
+    $("#stream").textContent = data.stream;
+    radioFETCH("x="+data.stream);
+    refreshInfo(5);
+}
+
+const refreshInfo=(sek=5)=> {
+   setTimeout(()=>{radioFETCH("n=0");},1000*sek);
+}
+const opisInfoRadio=(tx)=>{
+  let arr = tx.split("!");
+  console.log(arr);
+<!--  $("#info").textContent = arr[4]; -->
+<!--  $("#vol").textContent = arr[1]; -->
+<!--  $("#rsid").textContent = arr[2]; -->
+
+   $("#vol").textContent = arr[0];
+   $("#rsid").textContent = arr[1];
+   $("#name").textContent = arr[2];
+   $("#stream").textContent = arr[3];
+  
+}
+const checkForError = response => {
+  if (!response.ok) throw Error(response.statusText);
+  return response.text();
+};
+const radioFETCH=(param) =>{
+    let u = url+"radio?"+param; 
+    fetch(u)
+    .then(checkForError)
+    //.then(r => {return r.text()})
+    .then(tx => {
+        opisInfoRadio(tx);  
+    })
+    .catch(e => {console.log(e)})
+  }
+
+document.addEventListener("DOMContentLoaded",function(){
+    let html = "";
+    streamsDEF.forEach((s,i)=>{
+      html += '<button data-st="'+i+'" data-n="'+s.n+'" data-a="'+s.a+'" data-stream="'+s.s+'" class="info">'+s.n+'</button>';
+    });
+    document.querySelector("div.radia").innerHTML += html;
+    document.querySelectorAll("div.radia button").forEach((e)=>e.addEventListener('click', radioSlij, false));    
+    refreshInfo(1);
+    setInterval(()=>{radioFETCH("n=0");},1000);
+});
+  
+</script>
+</head>
+  
+<body>
+<!-- <body style="background-color: white;"></body> -->
+
+<div id="app" class="wrap">
+ <!--   <p>ESP32-A1S-TunnelRadio</p> -->
+    <div id="apptext">ESP32-A1S-TunnelRadio</div>
+    <p><b>[<span id="name"></span>, <span id="rsid"></span>dB]</b></p> 
+    <div id="info"></div> 
+    <div class="col">
+        <button onClick='refreshInfo(0);' class="navy">Info()</button> 
+        <button onClick='radioFETCH("v=m");refreshInfo(2);'class="gitt">Vol --</button> 
+            <span id="vol">0</span>  
+        <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button> 
+        <hr> 
+        <p>Host: <small><span id="stream"></span></small></p> 
+        <div class="radia"></div>
+      <br />
+      <div id="numery" class="st">
+        <button onclick='radioFETCH("s=0");'>1</button>
+        <button onclick='radioFETCH("s=1");'>2</button>
+        <button onclick='radioFETCH("s=2");'>3</button>
+        <button onclick='radioFETCH("s=3");'>4</button>
+        <button onclick='radioFETCH("s=4");'>5</button>
+      </div>      
+      <br />
+     <div class="admi">
+          <button onclick='radioFETCH("v=z");' class="warn">Zapisz preferencje</button>
+          <button onclick='radioFETCH("r=0");' class="warn">Reboot</button>
+          <button onClick='radioFETCH("r=1")'  class="warn">Replay</button>
+     </div> 
+       
+     <div class="eq">
+        <button onClick='radioFETCH("q=0");'>Mowa</button>
+        <button onClick='radioFETCH("q=1");'>Muzyka</button>
+        <button onClick='radioFETCH("q=2");'>Jazz</button>
+        <button onClick='radioFETCH("q=3");'>Classic</button>
+        <button onClick='radioFETCH("q=4");'>Flat</button>
+     </div>      
+      
+      
+    </div>
+</div>
+</body>
+</html>
