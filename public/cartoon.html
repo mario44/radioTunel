@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded",function(){
     document.querySelector("div.radia").innerHTML += html;
     document.querySelectorAll("div.radia button").forEach((e)=>e.addEventListener('click', radioSlij, false));    
     refreshInfo(1);
-    setInterval(()=>{radioFETCH("n=0");},15000);
+    setInterval(()=>{radioFETCH("n=0");},1000);
 });
   
 </script>
