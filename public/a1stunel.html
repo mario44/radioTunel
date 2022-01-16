@@ -124,6 +124,7 @@ const radioSlij=(el)=>{
     $("#name").textContent = data.n;
     $("#stream").textContent = data.stream;
     radioFETCH("x="+data.stream);
+    radioFETCH("n="+data.n);
     refreshInfo(5);
 }
 
