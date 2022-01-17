@@ -126,6 +126,7 @@ const radioSlij=(el)=>{
     el.target.classList.add("active");
     let data = el.target.dataset;
     $("#name").textContent = data.n;
+    $("#a").textContent = data.a;
     $("#stream").textContent = data.stream;
     radioFETCH("x="+data.stream);
     radioFETCH("n="+data.n);
