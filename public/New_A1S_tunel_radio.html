@@ -86,27 +86,27 @@ const $=e=>document.querySelector(e);
 const $$=e=>document.querySelectorAll(e);
   
 let streamsDEF = [
-{"a":"0", "n": "ST-01","s":"http://pl-play.adtonos.com/tok-fm"},
-{"a":"0", "n": "ST-02","s":"http://195.150.20.243:8000/rmf_top_5_pl"},
-{"a":"0", "n": "ST-03","s":"http://31.192.216.10:8000/rmf_w_pracy"},
-{"a":"0", "n": "ST-04","s":"http://31.192.216.7:8000/rmf_nostalgia"},
-{"a":"0", "n": "ST-05","s":"http://195.150.20.243:8000/rmf_fm"},
-{"a":"0", "n": "ST-06","s":"http://195.150.20.7:8000/rmf_24"},
-{"a":"0", "n": "ST-07","s":"http://217.74.72.11:8000/rmf_hot_new"},
-{"a":"0", "n": "ST-08","s":"http://217.74.72.11:8000/rmf_hard_heavy"},
-{"a":"0", "n": "ST-09","s":"http://195.150.20.7:8000/rmf_3"},
-{"a":"0", "n": "ST-10","s":"http://zet-tun.cdn.eurozet.pl:8080"},
-{"a":"0", "n": "ST-11","s":"https://pl2-play.adtonos.com/zote-przeboje"},
-{"a":"0", "n": "ST-12","s":"http://217.74.72.11:8000/rmf_blues"},
-{"a":"0", "n": "ST-13","s":"http://195.150.20.9:8000/rmf_20lat"},
-{"a":"0", "n": "ST-14","s":"http://195.150.20.242:8000/rmf_niezapomniane_melodie"},
-{"a":"0", "n": "ST-15","s":"http://stream4.nadaje.com:11986/prs.aac"},
-{"a":"0", "n": "ST-16","s":"https://ext03.ic.smcdn.pl/1380-1.aac"},
-{"a":"0", "n": "ST-17","s":"https://ext03.ic.smcdn.pl/4000-1.mp3"},
-{"a":"0", "n": "ST-18","s":"https://pl-play.adtonos.com/radio-pogoda"},
-{"a":"0", "n": "ST-19","s":"http://stream.rcs.revma.com/ypqt40u0x1zuv"},
-{"a":"0", "n": "ST-20","s":"http://www.emsoft.ct8.pl/inne/anty.m3u"},
-{"a":"0", "n": "ST-21","s":"http://stream.rcs.revma.com/ye5kghkgcm0uv"},
+{"a":"TOK-FM", "n": "ST-01","s":"http://pl-play.adtonos.com/tok-fm"},
+{"a":"RMF Top 30 PL", "n": "ST-02","s":"http://195.150.20.243:8000/rmf_top_5_pl"},
+{"a":"RMF W PRACY", "n": "ST-03","s":"http://31.192.216.10:8000/rmf_w_pracy"},
+{"a":"RMF BALLADY", "n": "ST-04","s":"http://31.192.216.7:8000/rmf_nostalgia"},
+{"a":"RMF-FM", "n": "ST-05","s":"http://195.150.20.243:8000/rmf_fm"},
+{"a":"RMF-24", "n": "ST-06","s":"http://195.150.20.7:8000/rmf_24"},
+{"a":"RMF HOT NEW", "n": "ST-07","s":"http://217.74.72.11:8000/rmf_hot_new"},
+{"a":"RMF HARD & HEAVY", "n": "ST-08","s":"http://217.74.72.11:8000/rmf_hard_heavy"},
+{"a":"RMF 3 POP-ROCK", "n": "ST-09","s":"http://195.150.20.7:8000/rmf_3"},
+{"a":"RADIO-ZET", "n": "ST-10","s":"http://zet-tun.cdn.eurozet.pl:8080"},
+{"a":"ZLOTE-PRZEBOJE", "n": "ST-11","s":"https://pl2-play.adtonos.com/zote-przeboje"},
+{"a":"RMF Blues", "n": "ST-12","s":"http://217.74.72.11:8000/rmf_blues"},
+{"a":"RMF 25 Lat FM", "n": "ST-13","s":"http://195.150.20.9:8000/rmf_20lat"},
+{"a":"RMF NIEZAPO MEL", "n": "ST-14","s":"http://195.150.20.242:8000/rmf_niezapomniane_melodie"},
+{"a":"SZCZECIN", "n": "ST-15","s":"http://stream4.nadaje.com:11986/prs.aac"},
+{"a":"Radio SUPERNOVA", "n": "ST-16","s":"https://ext03.ic.smcdn.pl/1380-1.aac"},
+{"a":"RADIO PLUS", "n": "ST-17","s":"https://ext03.ic.smcdn.pl/4000-1.mp3"},
+{"a":"RADIO POGODA", "n": "ST-18","s":"https://pl-play.adtonos.com/radio-pogoda"},
+{"a":"Radio Nowy Świat", "n": "ST-19","s":"http://stream.rcs.revma.com/ypqt40u0x1zuv"},
+{"a":"Anty-Radio", "n": "ST-20","s":"http://www.emsoft.ct8.pl/inne/anty.m3u"},
+{"a":"357", "n": "ST-21","s":"http://stream.rcs.revma.com/ye5kghkgcm0uv"},
 ];
 //console.log(streamsDEF);
   
@@ -129,6 +129,7 @@ const radioSlij=(el)=>{
     $("#stream").textContent = data.stream;
     radioFETCH("x="+data.stream);
     radioFETCH("n="+data.n);
+    radioFETCH("a="+data.a);
     refreshInfo(5);
 }
 
