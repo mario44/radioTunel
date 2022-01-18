@@ -51,17 +51,16 @@ String linia1_0[8] = {"        ","        ","        ","        ","        ","  
 
 String linia1;
 char   znakS = (char)223;
-String openWeatherMapApiKey = "3fd473910363f525e0ccda7233d75105";
+String openWeatherMapApiKey = "*******************";
 String city = "Szczecin";
 String countryCode = "pl";
 
 //////////////////////////////////////////////////////////////////////////////////
 
-//const String ssid = "multimedia_wifi_mm";
-//const String password = "mariuszek";
 
-const String ssid = "serwis";
-const String password = "servis11";
+
+const String ssid = "******";
+const String password = "*****";
 
 AsyncWebServer server(80);
 char* indexPath = "/radioTunel/public/New_A1S_tunel_radio.html";
