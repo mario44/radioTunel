@@ -150,6 +150,7 @@ const opisInfoRadio=(tx)=>{
    $("#rsid").textContent = arr[1];
    $("#name").textContent = arr[2];
    $("#stream").textContent = arr[3];
+   $("#info").textContent = arr[4];
    removeActive("div.radia button");
   
 }
@@ -197,8 +198,9 @@ document.addEventListener("DOMContentLoaded",function(){
         <button onClick='radioFETCH("v=m");refreshInfo(2);'class="gitt">Vol --</button> 
             <span id="vol">0</span>  
         <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button>
-      <button data-st="'-i-'" class="navy">Sta-</button>
-      <button  data-st="'+i+'" class="navy">Sta+</button>
+      
+	  <button onClick='radioFETCH("s=m");refreshInfo(2);' class="navy">Station-</button>
+      <button onClick='radioFETCH("s=p");refreshInfo(2);' class="navy">Station+</button>
         <hr> 
         <p>Host: <small><span id="stream"></span></small></p> 
         <div class="radia"></div>
