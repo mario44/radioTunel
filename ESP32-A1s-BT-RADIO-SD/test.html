@@ -84,9 +84,9 @@ text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
 <script>
 const $=e=>document.querySelector(e);
 const $$=e=>document.querySelectorAll(e);
-var nr=0;
-var st_down_press=0;
-var st_up_press=0;
+let nr=0;
+let st_down_press=0;
+let st_up_press=0;
 let streamsDEF = [
 {"a":"TOK-FM", "n": "ST-01","s":"http://pl-play.adtonos.com/tok-fm"},
 {"a":"RMF Top 30 PL", "n": "ST-02","s":"http://195.150.20.243:8000/rmf_top_5_pl"},
@@ -110,8 +110,7 @@ let streamsDEF = [
 {"a":"Anty-Radio", "n": "ST-20","s":"http://www.emsoft.ct8.pl/inne/anty.m3u"},
 {"a":"357", "n": "ST-21","s":"http://stream.rcs.revma.com/ye5kghkgcm0uv"},
 ];
-//console.log(streamsDEF);
-  
+
 let urlDEF = "/";  
 let urlObj = new URL(window.location.href);
 urlDEF = urlObj.searchParams.get("url") || urlDEF;
@@ -144,16 +143,11 @@ const refreshInfo=(sek=5)=> {
 const opisInfoRadio=(tx)=>{
   let arr = tx.split("!");
   console.log(arr);
-<!--  $("#info").textContent = arr[4]; -->
-<!--  $("#vol").textContent = arr[1]; -->
-<!--  $("#rsid").textContent = arr[2]; -->
-
    $("#vol").textContent = arr[0];
    $("#rsid").textContent = arr[1];
    $("#name").textContent = arr[2];
    $("#stream").textContent = arr[3];
-   removeActive("div.radia button");
-  
+   removeActive("div.radia button"); 
 }
 const checkForError = response => {
   if (!response.ok) throw Error(response.statusText);
@@ -163,7 +157,6 @@ const radioFETCH=(param) =>{
     let u = url+"radio?"+param; 
     fetch(u)
     .then(checkForError)
-    //.then(r => {return r.text()})
     .then(tx => {
         opisInfoRadio(tx);  
     })
@@ -179,7 +172,6 @@ document.addEventListener("DOMContentLoaded",function(){
     document.querySelectorAll("div.radia button").forEach((e)=>e.addEventListener('click', radioSlij, false));    
     refreshInfo(1);
     setInterval(()=>{radioFETCH("");},1000);
-  <!-- setInterval(()=>{radioFETCH("n=0");},1000); -->
 });
 
 
@@ -203,10 +195,9 @@ console.log(nr);
 </head>
   
 <body>
-<!-- <body style="background-color: white;"></body> -->
+
 
 <div id="app" class="wrap">
- <!--   <p>ESP32-A1S-TunnelRadio</p> --> 
   <div id="apptext">ESP32-A1S-TunnelRadio</div>
     <p><b>[<span id="name"></span>, <span id="rsid"></span>dB]</b></p> 
     <div id="info"></div> 
