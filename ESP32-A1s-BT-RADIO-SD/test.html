@@ -56,15 +56,10 @@ button.info {
   background-color: LightSeaGreen;
   color: #fff;
 }
-button.station_plus {
+button.station {
   background-color: Teal;
   color: #fff;
 }
-button.station_minus {
-  background-color: Teal;
-  color: #fff;
-}  
-  
 button.active{
   background-color:Coral!important;
 }    
@@ -184,7 +179,7 @@ const StationChange=() =>{
   console.log(nr);
   if (nr > streamsDEF.length){nr = 1;}
   if (nr <= 0){nr = streamsDEF.length;}
-  $("#name").textContent = streamsDEF[nr-1].n;
+  $("#name").textContent = streamsDEF[nr-1].a;
   $("#stream").textContent = streamsDEF[nr-1].s;
 }
 
@@ -204,8 +199,8 @@ const StationChange=() =>{
         <button onClick='radioFETCH("v=m");refreshInfo(2);'class="gitt">Vol --</button> 
             <span id="vol">0</span>  
         <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button> 
-        <button onClick='nr--;StationChange();refreshInfo(2);' class="station_minus">Sta-</button>
-        <button onClick='nr++;StationChange();refreshInfo(2);' class="station_plus">Sta+</button>
+        <button onClick='nr--;StationChange();refreshInfo(2);' class="station">Sta-</button>
+        <button onClick='nr++;StationChange();refreshInfo(2);' class="station">Sta+</button>
       <hr> 
         <p>Host: <small><span id="stream"></span></small></p> 
         <div class="radia"></div>
