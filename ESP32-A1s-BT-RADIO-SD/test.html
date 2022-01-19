@@ -87,7 +87,7 @@ text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
 <script>
 const $=e=>document.querySelector(e);
 const $$=e=>document.querySelectorAll(e);
-
+let nr=0;
 let streamsDEF = [
 {"a":"TOK-FM", "n": "ST-01","s":"http://pl-play.adtonos.com/tok-fm"},
 {"a":"RMF Top 30 PL", "n": "ST-02","s":"http://195.150.20.243:8000/rmf_top_5_pl"},
@@ -128,7 +128,9 @@ const radioSlij=(el)=>{
     el.target.classList.add("active");
     let data = el.target.dataset;
     $("#name").textContent = data.n;
-    $("#stream").textContent = data.stream;
+    nr = parseInt(data.st)+1;
+    $("#numer").textContent = nr
+  	$("#stream").textContent = data.stream;
     radioFETCH("x="+data.stream);
     radioFETCH("n="+data.n);
     radioFETCH("a="+data.a);
@@ -175,13 +177,14 @@ document.addEventListener("DOMContentLoaded",function(){
     setInterval(()=>{radioFETCH("");},1000);
 });
 
-let nr=0; 
+ 
 const StationChange=() =>{	
-  console.log(nr);
+  //console.log(nr);
   if (nr > streamsDEF.length){nr = 1;}
   if (nr <= 0){nr = streamsDEF.length;}
   $("#name").textContent = streamsDEF[nr-1].a;
   $("#stream").textContent = streamsDEF[nr-1].s;
+  $("#numer").textContent = nr;
 }
 
 </script>
@@ -193,7 +196,7 @@ const StationChange=() =>{
 
 <div id="app" class="wrap">
   <div id="apptext">ESP32-A1S-TunnelRadio</div>
-    <p><b>[<span id="name"></span>, <span id="rsid"></span>dB]</b></p> 
+    <p><b>[<span id="numer"></span> - <span id="name"></span>, <span id="rsid"></span>dB]</b></p> 
     <div id="info"></div> 
     <div class="col">
         <button onClick='refreshInfo(0);' class="navy">Info()</button> 
