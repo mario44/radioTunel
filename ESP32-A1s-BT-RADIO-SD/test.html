@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded",function(){
 const StationChange=() =>{	
   if (st_up_press > 0){nr++;
   if (nr > streamsDEF.length-1){nr = 0;}
-  st_up_press = 0
+  st_up_press = 0;
 }
   if (st_down_press > 0){nr--;
   if (nr < 0){nr = streamsDEF.length-1;}
