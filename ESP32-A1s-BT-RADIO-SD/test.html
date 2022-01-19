@@ -56,6 +56,14 @@ button.info {
   background-color: LightSeaGreen;
   color: #fff;
 }
+button.station_plus {
+  background-color: Teal;
+  color: #fff;
+}
+button.station_minus {
+  background-color: Teal;
+  color: #fff;
+}  
   
 button.active{
   background-color:Coral!important;
@@ -84,9 +92,7 @@ text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
 <script>
 const $=e=>document.querySelector(e);
 const $$=e=>document.querySelectorAll(e);
-let nr=0;
-let st_down_press=0;
-let st_up_press=0;
+
 let streamsDEF = [
 {"a":"TOK-FM", "n": "ST-01","s":"http://pl-play.adtonos.com/tok-fm"},
 {"a":"RMF Top 30 PL", "n": "ST-02","s":"http://195.150.20.243:8000/rmf_top_5_pl"},
@@ -136,6 +142,7 @@ const radioSlij=(el)=>{
 }
 
 const refreshInfo=(sek=5)=> {
+  <!-- setTimeout(()=>{radioFETCH("n=0");},1000*sek); -->
    setTimeout(()=>{radioFETCH("");},1000*sek);
 }
 const opisInfoRadio=(tx)=>{
@@ -172,20 +179,13 @@ document.addEventListener("DOMContentLoaded",function(){
     setInterval(()=>{radioFETCH("");},1000);
 });
 
-
-  
+let nr=0; 
 const StationChange=() =>{	
-  if (st_up_press > 0){nr++;
-  if (nr > streamsDEF.length-1){nr = 0;}
-  st_up_press = 0;
-}
-  if (st_down_press > 0){nr--;
-  if (nr < 0){nr = streamsDEF.length-1;}
-  st_down_press = 0;
-}
-  $("#name").textContent = streamsDEF[nr].n;
-  $("#stream").textContent = streamsDEF[nr].s;
-console.log(nr);  
+  console.log(nr);
+  if (nr > streamsDEF.length){nr = 1;}
+  if (nr <= 0){nr = streamsDEF.length;}
+  $("#name").textContent = streamsDEF[nr-1].n;
+  $("#stream").textContent = streamsDEF[nr-1].s;
 }
 
 </script>
@@ -204,8 +204,8 @@ console.log(nr);
         <button onClick='radioFETCH("v=m");refreshInfo(2);'class="gitt">Vol --</button> 
             <span id="vol">0</span>  
         <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button> 
-        <button onClick='StationChange();st_down_press=1;refreshInfo(2);' class="navy">Sta-</button>
-        <button onClick='StationChange();st_up_press=1;refreshInfo(2);' class="navy">Sta+</button>
+        <button onClick='nr--;StationChange();refreshInfo(2);' class="station_minus">Sta-</button>
+        <button onClick='nr++;StationChange();refreshInfo(2);' class="station_plus">Sta+</button>
       <hr> 
         <p>Host: <small><span id="stream"></span></small></p> 
         <div class="radia"></div>
