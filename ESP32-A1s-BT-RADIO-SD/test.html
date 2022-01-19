@@ -139,7 +139,6 @@ const radioSlij=(el)=>{
 }
 
 const refreshInfo=(sek=5)=> {
-  <!-- setTimeout(()=>{radioFETCH("n=0");},1000*sek); -->
    setTimeout(()=>{radioFETCH("");},1000*sek);
 }
 const opisInfoRadio=(tx)=>{
@@ -161,7 +160,7 @@ const radioFETCH=(param) =>{
     fetch(u)
     .then(checkForError)
     .then(tx => {
-        opisInfoRadio(tx);  
+       opisInfoRadio(tx);  
     })
     .catch(e => {console.log(e)})
   }
