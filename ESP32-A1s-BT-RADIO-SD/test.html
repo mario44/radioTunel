@@ -127,6 +127,7 @@ const radioSlij=(el)=>{
     removeActive("div.radia button")
     el.target.classList.add("active");
     let data = el.target.dataset;
+  //console.log(data);
     $("#name").textContent = data.n;
     nr = parseInt(data.st)+1;
     $("#numer").textContent = nr
@@ -177,10 +178,13 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 
  
-const StationChange=() =>{	
-  //console.log(nr);
+const StationChange=(param) =>{	
+  if (param == "s=m") {nr--;}
+  if (param == "s=p") {nr++;}
+  removeActive("div.radia button");
   if (nr > streamsDEF.length){nr = 1;}
   if (nr <= 0){nr = streamsDEF.length;}
+  $$("div.radia button")[nr-1].classList.add("active");
   $("#name").textContent = streamsDEF[nr-1].a;
   $("#stream").textContent = streamsDEF[nr-1].s;
   $("#numer").textContent = nr;
@@ -202,8 +206,8 @@ const StationChange=() =>{
         <button onClick='radioFETCH("v=m");refreshInfo(2);'class="gitt">Vol --</button> 
             <span id="vol">0</span>  
         <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button> 
-        <button onClick='nr--;StationChange();refreshInfo(2);' class="station">Sta-</button>
-        <button onClick='nr++;StationChange();refreshInfo(2);' class="station">Sta+</button>
+        <button onClick='StationChange("s=m");refreshInfo(2);' class="station">Sta-</button>
+        <button onClick='StationChange("s=p");refreshInfo(2);' class="station">Sta+</button>
       <hr> 
         <p>Host: <small><span id="stream"></span></small></p> 
         <div class="radia"></div>
