@@ -63,7 +63,7 @@ const opisInfoRadio=(tx)=>{
    $("#name").textContent = arr[2];
    $("#stream").textContent = arr[3];
    $("#info").textContent = arr[4];
-   removeActive("div.radia button"); 
+   //removeActive("div.radia button"); 
 }
 const checkForError = response => {
   if (!response.ok) throw Error(response.statusText);
