@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl"><head>
+<meta charset="utf-8">
+<title>#ESP32-A1S-TunnelRadio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="mobile-web-app-capable" content="yes"> 
+<meta name="theme-color" content="#214960">
+
+<link rel="manifest" href="https://mario44.github.io/radioTunel/public/radio.web.json">  
+<link rel="shortcut icon" type="image/svg+xml" size="any" href="https://mario44.github.io/radioTunel/public/img/radio.svg"> 
+<link rel="stylesheet" href="https://mario44.github.io/radioTunel/public/css/tunelRadioAS1.css" />
+
+</head> 
+<body>
+<div id="app" class="wrap">
+  <div id="apptext">ESP32-A1S-TunnelRadio</div>
+    <p><b>[<span id="numer"></span> - <span id="name"></span>, <span id="rsid"></span>dB]</b></p> 
+    <div id="info"></div> 
+    <div class="col">
+        <button onClick='refreshInfo(0);' class="navy">Info()</button> 
+        <button onClick='radioFETCH("v=m");refreshInfo(2);'class="gitt">Vol --</button> 
+            <span id="vol">0</span>  
+        <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button> 
+        <button onClick='StationChange("m");' class="station">Sta-</button>
+        <button onClick='StationChange("p");' class="station">Sta+</button>
+      <hr> 
+        <p>Host: <small><span id="stream"></span></small></p> 
+        <div class="radia"></div>
+      <br />
+      <div id="numery" class="st">
+        <button onclick='radioFETCH("s=0");'>1</button>
+        <button onclick='radioFETCH("s=1");'>2</button>
+        <button onclick='radioFETCH("s=2");'>3</button>
+        <button onclick='radioFETCH("s=3");'>4</button>
+        <button onclick='radioFETCH("s=4");'>5</button>
+      </div>      
+      <br />
+     <div class="admi">
+          <button onclick='radioFETCH("v=z");' class="warn">Zapisz preferencje</button>
+          <button onclick='radioFETCH("r=0");' class="warn">Reboot</button>
+          <button onClick='radioFETCH("r=1")'  class="warn">Replay</button>
+     </div> 
+       
+     <div class="eq">
+        <button onClick='radioFETCH("q=0");'>Mowa</button>
+        <button onClick='radioFETCH("q=1");'>Muzyka</button>
+        <button onClick='radioFETCH("q=2");'>Jazz</button>
+        <button onClick='radioFETCH("q=3");'>Classic</button>
+        <button onClick='radioFETCH("q=4");'>Flat</button>
+     </div>      
+       
+      
+    </div>
+</div>
+
+<script src="https://mario44.github.io/radioTunel/public/js/tunelRadioAS1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js" integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</body>
+</html>
