@@ -1,0 +1,73 @@
+*,*::before,*::after {box-sizing: border-box;} 
+  body {
+    font-family: Verdana;
+    font-size: 10pt;
+    padding: 0;
+    margin: 0;  
+  }
+.wrap {
+    z-index: 2;
+    margin: auto;
+    padding: 0.35rem;
+    max-width: 800px;
+}  
+.col {
+    grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+}   
+button {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background-color: #50bfff;
+  color: #fff;
+  margin:0.2em;
+  border-radius: 0.8em;
+  font-size: 8pt; 
+  font-family: "Verdana";
+  cursor: pointer;
+}
+button.succ {
+  background-color: LightSeaGreen;
+  color: #fff;
+}
+button.warn {
+  background-color: orange;
+  color: #000;
+}
+button.navy {
+  background-color: Teal;
+  color: white;
+}
+button.info {
+  background-color: #369;
+  color: #fff;
+}
+  button.gitt {
+  background-color: LightSeaGreen;
+  color: #fff;
+}
+button.station {
+  background-color: Teal;
+  color: #fff;
+}
+button.active{
+  background-color:Coral!important;
+}    
+p {margin:0;}
+small {font-size:0.6em;}
+#info {
+    min-height: 1.5em;
+    background: #f4f4f4;
+    margin: 0.5em auto;  
+  }
+  div.eq button {font-size:0.8em;padding: 0.5em;background:#e06;}
+
+#apptext {
+color: transparent;
+background: #666666;
+-webkit-background-clip: text;
+-moz-background-clip: text;
+background-clip: text;
+text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
+}
+
+.active,button:active,button:visited{background-color:#4564a4!important;color:white!important;}
