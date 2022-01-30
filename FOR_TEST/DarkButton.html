@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>#DarkButton</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="mobile-web-app-capable" content="yes"> 
+<link rel="stylesheet" href="https://mario44.github.io/fontawesome/css/all.css">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+
+<style> 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #252525;
+  padding: 0%;
+  font-family: 'Roboto';font-size: 14px;   
+}
+.button {
+  display: inline-block;
+  margin: 0.1%;
+  color: black;
+  text-align: left;
+  background: -webkit-linear-gradient(top, #434343 0%, #252525 70%);
+  position: relative;
+  box-shadow: inset 0px -3px 3px #151515, inset 0px 1px 2px #858585, inset 1px 0px 1px #151515, 0px 0px 2px black;
+  cursor: pointer;
+}
+.button:hover {
+  background: -webkit-linear-gradient(top, #535353 0%, #252525 100%);
+}
+.button:active {
+  background: -webkit-linear-gradient(top, #252525 0%, #353535 100%);
+  box-shadow: inset 0px 1px 2px #151515, 0px 0px 2px black;
+}
+.button i {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -56%);
+}
+.button:active i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  color: cyan;
+  transition: color 0.05s ease-in;
+}
+.circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: #909090;
+}
+.square {
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  color: #909090;
+}
+.rectangle {
+  padding: 0 20px;
+  border-radius: 5px;
+  /*font-weight: bold;*/
+  color: #909090;
+}
+.rectangle p {
+  margin: 10px 0
+}
+.rectangle:active p {
+  color: cyan;
+  margin: 12px 0 6px 0;
+} 
+</style>  
+</head>
+<body>
+  <div class="button circle">
+    <i class="fal fa-volume-down" aria-hidden="true"></i>
+  </div>
+  <div class="button circle">
+    <i class="fal fa-volume-up"></i>
+  </div>
+  <div class="button circle">
+    <i class="fal fa-backward"></i>
+  </div>
+  <div class="button circle">
+    <i class="fal fa-forward"></i>
+  </div>
+
+  <div class="button square">
+    <i class="fal fa-signal-stream" aria-hidden="true"></i>
+  </div>
+  <div class="button square">
+    <i class="fal fa-clock" aria-hidden="true"></i>
+  </div>
+  <div class="button square">
+    <i class="fal fa-mp3-player" aria-hidden="true"></i>
+  </div>
+  <div class="button square">
+    <i class="fal fa-bluetooth" aria-hidden="true"></i>
+  </div>
+
+  <div class="button square">
+    <i class="fal fa-radio" aria-hidden="true"></i>
+  </div>
+<br />
+ 
+  <div class="button rectangle">
+    <p>ST-01</p>
+  </div> 
+  
+<script>
+</script>  
+  </body>
+</html>
