@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+  <style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #252525;
+  padding: 0%;
+  font-family: 'Roboto';font-size: 14px;
+  color: #909090;
+}
+  
+.main {
+  /*background: orange;*/
+  /*float: left;
+  width: 60%;
+  padding: 0 20px;
+  overflow: hidden;*/
+  margin: auto;
+  display: grid;
+}
+  
+.klawisze {
+  background: orange;
+  margin: 0 auto;
+  text-align: center;
+  width: 500px;
+
+}
+  
+.button {
+  display: inline-block;
+  margin: 6px;
+  color: black;
+  text-align: left;
+  background: -webkit-linear-gradient(top, #434343 0%, #252525 70%);
+  position: relative;
+  box-shadow: inset 0px -3px 3px #151515, inset 0px 1px 2px #858585, inset 1px 0px 1px #151515, 0px 0px 2px black;
+  cursor: pointer;
+  width: 200px;
+  max-width: 100%;
+}
+.button:hover {
+  background: -webkit-linear-gradient(top, #535353 0%, #252525 100%);
+}
+.button:active {
+  background: -webkit-linear-gradient(top, #252525 0%, #353535 100%);
+  box-shadow: inset 0px 1px 2px #151515, 0px 0px 2px black;
+}
+.button i {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  font-size: 14px; /* kolor ikonek buttons */
+  transform: translate(-50%, -56%);
+}
+.button:active i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  color: cyan;
+  transition: color 0.05s ease-in;
+}
+.circle {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: #909090;
+}
+  
+@media only screen and (max-width:768px) {
+  /* For mobile phones: */
+  .main, .klawisze {
+    width: 100%;
+    padding:0px 0px;
+    font-size:80%;
+    line-height: 1;
+    border-radius:3px;
+  }
+}  
+</style>
+</head>
+<body>
+<div class="main">
+    <img src="https://mmakowski.zut.edu.pl/e/BLUE_LCD.png" style="width:100%">
+  </div>  
+<div class="klawisze">  
+<div class="button circle">
+    <i class="fal fa-volume-down"></i>
+  </div>
+<div class="button circle">
+    <i class="fal fa-volume-up"></i>
+  </div>
+<div class="button circle">
+    <i class="fal fa-backward"></i>
+  </div>
+  <div class="button circle">
+    <i class="fal fa-forward"></i>
+  </div>
+  <div class="button circle">
+    <i class="fal fa-backward"></i>
+  </div>
+  <div class="button circle">
+    <i class="fal fa-forward"></i>
+  </div>
+  <div class="button circle">
+    <i class="fal fa-backward"></i>
+  </div>
+  <div class="button circle">
+    <i class="fal fa-forward"></i>
+  </div>
+</div>
+  
+</body>
+</html>
