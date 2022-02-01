@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>#ESP32-A1S-TunnelRadio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="mobile-web-app-capable" content="yes"> 
+<meta name="theme-color" content="#214960">
+
+<style>
+*,*::before,*::after {box-sizing: border-box;} 
+  body {
+    font-family: Verdana;
+    font-size: 10pt;
+    padding: 0;
+    margin: 0;  
+  }
+.wrap {
+    z-index: 2;
+    margin: auto;
+    padding: 0.35rem;
+    max-width: 800px;
+}  
+.col {
+    grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+}
+button,.button {
+      padding: 18px;
+      border: none;
+      background-color: #3cf;  
+      color: #000;
+      margin:0.2em;
+      /*border-radius: 0.8em;*/
+      font-size: 12px; 
+      font-family: "Verdana";
+      cursor: pointer;
+      min-width: 4.4em;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+    }
+
+button222 {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  background-color: #50bfff;
+  color: #fff;
+  margin:0.2em;
+  border-radius: 0.8em;
+  font-size: 8pt; 
+  font-family: "Verdana";
+  cursor: pointer;
+}
+ button111,.button111 {
+      padding: 0.75em;
+      border: 1px;
+      background-color: #3cf;  
+      color: #000;
+      margin:0.2em;
+      border-radius: 0.8em;
+      font-size: 12pt; 
+      font-family: "Verdana";
+      cursor: pointer;
+      min-width: 4.4em;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+    }
+
+button.succ {
+  background-color: LightSeaGreen;
+  color: #fff;
+}
+button.warn {
+  background-color: orange;
+  color: #000;
+}
+button.navy {
+  background-color: Teal;
+  color: white;
+}
+button.info {
+  background-color: #369;
+  color: #fff;
+}
+  button.gitt {
+  background-color: LightSeaGreen;
+  color: #fff;
+}
+button.station {
+  background-color: Teal;
+  color: #fff;
+}
+button.active{
+  background-color:Coral!important;
+}
+
+p {margin:0;}
+small {font-size:0.6em;}
+#info {
+    min-height: 1.5em;
+    background: #f4f4f4;
+    margin: 0.5em auto;  
+  }
+  div.eq button {font-size:0.8em;padding: 0.5em;background:#e06;}
+div.fav  button {
+  padding: 10px 20px;
+  border: 2px solid #ddd;
+  background-color: #336699;
+  color: #fff;
+  margin:0.2em;
+  border-radius: 0.8em;
+  font-size: 8pt; 
+  font-family: "Verdana";
+  cursor: pointer;
+} 
+ 
+div.fav button.active{
+  background-color:Tomato!important;
+}
+#apptext {
+color: transparent;
+background: #666666;
+-webkit-background-clip: text;
+-moz-background-clip: text;
+background-clip: text;
+text-shadow: 0px 3px 3px rgba(255,255,255,0.5);
+}
+
+.active,button:active,button:visited{background-color:#4564a4!important;color:white!important;}
+
+.accordion {
+  background-color: orange;
+  color: #fff;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: #ccc;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+
+.button:hover {opacity: 0.7;}
+    .acordion {
+      background: #99ffcc;
+      padding: 0 0.5em;
+      width: 100%;
+      overflow: hidden;
+      max-height: 0;
+      transition: all 1s ease-in-out;
+      padding:0;
+    }
+
+      
+</style>
+</head>
+  
+<body>
+<div id="app" class="wrap">
+  
+<div id="apptext">ESP32-A1S-TunnelRadio</div>
+<p><b>[<span id="numer"></span> - <span id="name"></span>, <span id="rsid"></span>dB]</b></p> 
+    <div id="info"></div> 
+    <div class="col">
+        <button onClick='refreshInfo(0);' class="navy">Info()</button> 
+        <button onClick='radioFETCH("v=m");refreshInfo(2);'class="gitt">Vol --</button> 
+            <span id="vol">0</span>  
+        <button onClick='radioFETCH("v=p");refreshInfo(2);' class="succ">Vol ++</button> 
+        <button onClick='StationChange("m");' class="station">Sta-</button>
+        <button onClick='StationChange("p");' class="station">Sta+</button>
+      <hr> 
+        <p>Host: <small><span id="stream"></span></small></p> 
+ <button class="accordion">Stations</button> 
+   <div class="panel">
+      <div class="radia"></div>
+  </div> 
+      
+      
+      <br />
+      <input type='radio' onclick='docheck(this);'> Set Favorite
+      <div class="favorite"></div>
+	  <div class="fav">
+        <button onclick='ZachowajStacje("1");'>1</button>
+        <button onclick='ZachowajStacje("2");'>2</button>
+        <button onclick='ZachowajStacje("3");'>3</button>
+        <button onclick='ZachowajStacje("4");'>4</button>
+        <button onclick='ZachowajStacje("5");'>5</button>
+      </div>
+	  
+      <br />
+     <div class="admi">
+          <button onclick='radioFETCH("v=z");' class="warn">Zapisz preferencje</button>
+          <button onclick='radioFETCH("r=0");' class="warn">Reboot</button>
+          <button onClick='radioFETCH("r=1")'  class="warn">Replay</button>
+     </div> 
+       
+     <div class="eq">
+        <button onClick='radioFETCH("q=0");'>Mowa</button>
+        <button onClick='radioFETCH("q=1");'>Muzyka</button>
+        <button onClick='radioFETCH("q=2");'>Jazz</button>
+        <button onClick='radioFETCH("q=3");'>Classic</button>
+        <button onClick='radioFETCH("q=4");'>Flat</button>
+     </div>
+ 
+  
+</div>
+</div>
+  
+<script>
+const $=e=>document.querySelector(e);
+const $$=e=>document.querySelectorAll(e);
+let nr=0;
+let checkedradio=null;
+var acc = document.getElementsByClassName("accordion");
+var i;
+let streamsDEF = [
+{"i":"1", "a":"TOK-FM", "n": "ST-01","s":"http://pl-play.adtonos.com/tok-fm"},
+{"i":"2", "a":"RMF Top 30 PL", "n": "ST-02","s":"http://195.150.20.243:8000/rmf_top_5_pl"},
+{"i":"3", "a":"RMF W PRACY", "n": "ST-03","s":"http://31.192.216.10:8000/rmf_w_pracy"},
+{"i":"4", "a":"RMF BALLADY", "n": "ST-04","s":"http://31.192.216.7:8000/rmf_nostalgia"},
+{"i":"5", "a":"RMF-FM", "n": "ST-05","s":"http://195.150.20.243:8000/rmf_fm"},
+{"i":"6", "a":"RMF-24", "n": "ST-06","s":"http://195.150.20.7:8000/rmf_24"},
+{"i":"7", "a":"RMF HOT NEW", "n": "ST-07","s":"http://217.74.72.11:8000/rmf_hot_new"},
+{"i":"8", "a":"RMF HARD and HEAVY", "n": "ST-08","s":"http://217.74.72.11:8000/rmf_hard_heavy"},
+{"i":"9", "a":"RMF 3 POP-ROCK", "n": "ST-09","s":"http://195.150.20.7:8000/rmf_3"},
+{"i":"10", "a":"RADIO-ZET", "n": "ST-10","s":"http://zet-tun.cdn.eurozet.pl:8080"},
+{"i":"11", "a":"ZLOTE-PRZEBOJE", "n": "ST-11","s":"https://pl2-play.adtonos.com/zote-przeboje"},
+{"i":"12", "a":"RMF Blues", "n": "ST-12","s":"http://217.74.72.11:8000/rmf_blues"},
+{"i":"13", "a":"RMF 25 Lat FM", "n": "ST-13","s":"http://195.150.20.9:8000/rmf_20lat"},
+{"i":"14", "a":"RMF NIEZAPO MEL", "n": "ST-14","s":"http://195.150.20.242:8000/rmf_niezapomniane_melodie"},
+{"i":"15", "a":"SZCZECIN", "n": "ST-15","s":"http://stream4.nadaje.com:11986/prs.aac"},
+{"i":"16", "a":"Radio SUPERNOVA", "n": "ST-16","s":"https://ext03.ic.smcdn.pl/1380-1.aac"},
+{"i":"17", "a":"RADIO PLUS", "n": "ST-17","s":"https://ext03.ic.smcdn.pl/4000-1.mp3"},
+{"i":"18", "a":"RADIO POGODA", "n": "ST-18","s":"https://pl-play.adtonos.com/radio-pogoda"},
+{"i":"19", "a":"Radio Nowy Świat", "n": "ST-19","s":"http://stream.rcs.revma.com/ypqt40u0x1zuv"},
+{"i":"20", "a":"Anty-Radio", "n": "ST-20","s":"http://www.emsoft.ct8.pl/inne/anty.m3u"},
+{"i":"21", "a":"357", "n": "ST-21","s":"http://stream.rcs.revma.com/ye5kghkgcm0uv"},
+];
+
+let urlDEF = "/";  
+let urlObj = new URL(window.location.href);
+urlDEF = urlObj.searchParams.get("url") || urlDEF;
+console.log("urlDEF=",urlDEF);
+localStorage.setItem("urlDEF", urlDEF); 
+let url = urlDEF;
+  
+const removeActive=(dom)=>{
+  $$(dom).forEach((e)=>e.classList.remove("active"));
+}
+
+const radioSlij=(el)=>{
+    removeActive("div.radia button")
+    el.target.classList.add("active");
+    let data = el.target.dataset;
+  //console.log(data);
+    $("#name").textContent = data.n;
+    nr = parseInt(data.st)+1;
+    $("#numer").textContent = nr
+    $("#stream").textContent = data.stream;
+    radioFETCH("x="+data.stream);
+    radioFETCH("n="+data.n);
+    radioFETCH("a="+data.a);
+    radioFETCH("stpr="+data.st);
+    refreshInfo(5);
+}
+
+const refreshInfo=(sek=5)=> {
+   setTimeout(()=>{radioFETCH("");},1000*sek);
+}
+const opisInfoRadio=(tx)=>{
+  let arr = tx.split("!");
+  //console.log(arr);
+   $("#vol").textContent = arr[0];
+   $("#rsid").textContent = arr[1];
+   $("#name").textContent = arr[2];
+   $("#stream").textContent = arr[3];
+   $("#info").textContent = arr[4];
+   //$("#numer").textContent = parseInt(arr[5])+1;
+   //nr = parseInt(arr[5])+1;
+   //console.log(nr);
+   //StationChangeByNumber(nr);
+   //removeActive("div.radia button"); 
+}
+const checkForError = response => {
+  if (!response.ok) throw Error(response.statusText);
+  return response.text();
+};
+const radioFETCH=(param) =>{
+    let u = url+"radio?"+param; 
+    fetch(u)
+    .then(checkForError)
+    .then(tx => {
+       opisInfoRadio(tx);  
+    })
+    .catch(e => {console.log(e)})
+  }
+document.addEventListener("DOMContentLoaded",function(){
+    let html = "";
+    streamsDEF.forEach((s,i)=>{
+      html += '<button data-st="'+i+'" data-n="'+s.n+'" data-a="'+s.a+'" data-stream="'+s.s+'" class="info">'+s.n+'</button>';
+    });
+    document.querySelector("div.radia").innerHTML += html;
+    document.querySelectorAll("div.radia button").forEach((e)=>e.addEventListener('click', radioSlij, false));    
+    refreshInfo(1);
+    setInterval(()=>{radioFETCH("");},1000);
+});
+
+const StationChange=(param) =>{	
+  if (param == "m") {nr--;}
+  if (param == "p") {nr++;} 
+  removeActive("div.radia button");
+  if (nr > streamsDEF.length){nr = 1;}
+  if (nr <= 0){nr = streamsDEF.length;}
+  radioFETCH("s="+param)
+ 
+  $("#name").textContent = streamsDEF[nr-1].a;
+  $("#stream").textContent = streamsDEF[nr-1].s;
+  $("#numer").textContent = nr;
+  $$("div.radia button")[nr-1].classList.add("active");
+  radioFETCH("x="+streamsDEF[nr-1].s);
+  radioFETCH("n="+streamsDEF[nr-1].n);
+  radioFETCH("a="+streamsDEF[nr-1].a);
+  radioFETCH("st="+nr);
+  refreshInfo(2);
+}
+	  
+const CheckIfExist=(params)=>{
+	let fav_name = "FAV"+params
+	let f_name = localStorage.getItem(fav_name);
+	console.log(f_name)
+	if (f_name===null){
+	console.log("Brak Zapisanej stacji")
+	} else {
+	console.log("Czy chcesz nadpisać stacje?")
+	}
+	//confirmAction();
+	
+	//localStorage.removeItem(fav_name);
+}
+
+const ZachowajStacje=(params)=>{ 
+  //CheckIfExist(params);
+  console.log(checkedradio)
+  removeActive("div.fav button");
+  let FAV="";
+  if (checkedradio === null){
+    console.log("RadioButton jest nieaktywny")
+    let odczyt = localStorage.getItem("FAV"+params);
+    $$("div.fav button")[parseInt(params)-1].classList.add("active");
+    console.log("odczyt:")
+    console.log(odczyt)
+    if (odczyt===null){
+	console.log("Brak Zapisanej stacji")
+    alert("Brak Zapisanej stacji");
+    return;
+	}
+    $("#name").textContent = JSON.parse(odczyt).a;
+    $("#stream").textContent = JSON.parse(odczyt).s;
+    $("#numer").textContent = JSON.parse(odczyt).i;
+    radioFETCH("x="+JSON.parse(odczyt).s);
+    radioFETCH("n="+JSON.parse(odczyt).n);
+    radioFETCH("a="+JSON.parse(odczyt).a);
+    radioFETCH("st="+JSON.parse(odczyt).i);
+    refreshInfo(2);
+  } else {
+    if (nr===0) {alert("Wybierz stację");
+  	} else {
+    FAV=streamsDEF[nr-1];
+    localStorage.setItem("FAV"+params, JSON.stringify(FAV));
+    alert("Zapisano");
+    }
+  }
+}	
+const StationChangeByNumber=(nr) =>{	
+ //console.log(nr);
+  //removeActive("div.radia button");
+  //$("#numer").textContent = nr_esp;
+  //$$("div.radia button")[nr].classList.add("active");
+  refreshInfo(2);
+}
+function docheck(thisradio) {
+    if (checkedradio == thisradio) {
+        thisradio.checked = false;
+        checkedradio = null;
+    }
+    else {checkedradio = thisradio;}
+}
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+
+</script>
+
+</body>
+</html>
