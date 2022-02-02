@@ -15,7 +15,7 @@
 }
 
 body {
-  background: #555555;
+  background: #151515;
   padding: 0%;
   font-family: 'Roboto';font-size: 14px;   
 }
@@ -88,12 +88,27 @@ body {
     flex-wrap: wrap;
     flex-direction: row;
 }
-
+#lcdekran {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    font-family: monospace;
+    font-weight: normal;
+	font-size: 25px;
+    line-height: 2px;
+	color:#fff;
+}
 </style>  
 </head>
 <body>
   <div class="klawisze">
     <img src="https://mario44.github.io/radioTunel/public/img/LCD1602_Blue.png" style="width:100%; height:200px">
+  <div id="lcdekran">
+		<p>01234abcdefghijklmno</p>
+		<p>fghijklmnoprstu01234</p>
+		<p>098765ABCDEFGHIJKLMN</p>
+		<p>!@#$%^&*()_+|}{":?<></p>
+	</div>
   </div> 
   <div class="klawisze">
         <div class="button circle">
