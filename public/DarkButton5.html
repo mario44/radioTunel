@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>#DarkButton4</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="mobile-web-app-capable" content="yes"> 
+<link rel="stylesheet" href="https://mario44.github.io/fontawesome/css/all.css">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+
+<style> 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #151515;
+  padding: 0%;
+  font-family: 'Roboto';font-size: 14px; 
+}
+.button {
+  display: inline-block;
+  margin: 0.1%;
+  color: black;
+  text-align: left;
+  background: -webkit-linear-gradient(top, #434343 0%, #252525 70%);
+  position: relative;
+  box-shadow: inset 0px -3px 3px #151515, inset 0px 1px 2px #858585, inset 1px 0px 1px #151515, 0px 0px 2px black;
+  cursor: pointer;
+}
+.button:hover {
+  background: -webkit-linear-gradient(top, #535353 0%, #252525 100%);
+}
+.button:active {
+  background: -webkit-linear-gradient(top, #252525 0%, #353535 100%);
+  box-shadow: inset 0px 1px 2px #151515, 0px 0px 2px black;
+}
+.button i {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -56%);
+}
+.button:active i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  color: #20abfe;
+  transition: color 0.05s ease-in;
+}
+.circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  color: #909090;
+}
+.square {
+  width: 45px;
+  height: 45px;
+  border-radius: 5px;
+  color: #909090;
+}
+.rectangle {
+  /*padding: 0 20px;*/
+  width: 65px;
+  height: 45px;
+  border-radius: 5px;
+  /*font-weight: bold;*/
+  color: #909090;
+}
+/*.rectangle p {
+  margin: 10px 0
+}
+.rectangle:active p {
+  color: cyan;
+  margin: 12px 0 6px 0;
+} */
+.klawisze {
+    top: 0px;
+    left: 0px;
+    max-width: 360px;
+    display: flex;
+    margin: 1em auto;
+    position: relative;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: space-around;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+#lcdekran {
+    position:relative;
+    max-width: 360px;
+    margin: auto;
+  color: #fff;
+}
+#lcdekran img {
+    height: 200px;
+    width:100%;
+    left:1px;
+    
+}
+#lcdekran .text {
+   margin: -156px 0px 0px 27px;
+  //margin: -156px 0px 0px 25px;
+  //color: #fff;
+}
+#lcdekran .text pre{
+    margin:0;
+    padding:0;
+/*------------------*/  
+/*    white-space: nowrap;
+    width: 300px;
+    overflow: hidden;
+    text-overflow: clip;*/
+/*------------------*/   
+    line-height: 26px;
+    font-family: monospace;
+    font-weight: normal;
+    font-size: 25px;
+    color: white;    
+}
+.klawiatura {
+    margin-top: 66px;
+}
+ 
+</style>  
+</head>
+<body>
+
+    
+<div id="lcdekran">
+    <img src="https://mario44.github.io/radioTunel/public/img/LCD1602_Blue.png" >
+        <div class="text">
+            <pre>01234abcdefghijklmno</pre>
+            <pre>fghijklmnoprstu01234</pre>
+            <pre>098765ABCDEFGHIJKLMN</pre>
+            <pre>!@#$%^&*()_+|}{":?<></pre>
+        </div>
+</div>
+
+          
+<div class="klawiatura">
+    <div class="klawisze">
+            <div class="button circle" >
+            <i class="fal fa-volume-down"></i>
+            </div>
+            <div class="button circle">
+            <i class="fal fa-volume-up"></i>
+            </div>
+            <div class="button circle">
+            <i class="fal fa-backward"></i>
+            </div>
+            <div class="button circle">
+            <i class="fal fa-forward"></i>
+            </div>
+            <div class="button square">
+            <i class="fa-light fa-gear"></i>
+            </div>        
+    </div>
+    <div class="klawisze">
+            <div class="button square">
+            <i class="fal fa-signal-stream" aria-hidden="true"></i>
+            </div>
+            <div class="button square">
+            <i class="fal fa-clock" aria-hidden="true"></i>
+            </div>
+            <div class="button square">
+            <i class="fal fa-mp3-player" aria-hidden="true"></i>
+            </div>
+            <div class="button square">
+            <i class="fal fa-bluetooth" aria-hidden="true"></i>
+            </div>
+
+            <div class="button square">
+            <i class="fal fa-radio" aria-hidden="true"></i>
+            </div>
+    </div>
+
+    <div class="klawisze">
+        <div class="button rectangle">
+        <i class="fa-light fa-1"></i>
+        </div> 
+        <div class="button rectangle">
+        <i class="fa-light fa-2"></i>
+        </div> 
+        <div class="button rectangle">
+        <i class="fa-light fa-3"></i>
+        </div> 
+        <div class="button rectangle">
+        <i class="fa-light fa-4"></i>
+        </div> 
+
+    </div>
+
+    <div class="klawisze">
+    <div class="button rectangle">
+        <i class="fa-light fa-5"></i>
+    </div> 
+    <div class="button rectangle">
+        <i class="fa-light fa-6"></i>
+    </div> 
+    <div class="button rectangle">
+        <i class="fa-light fa-7"></i>
+    </div> 
+    <div class="button rectangle">
+        <i class="fa-light fa-8"></i>
+    </div> 
+    </div>
+</div>
+
+ 
+<script>
+var odswiezacz;
+var pos = 0;
+let longspace = "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"
+let msg = longspace+"Rembrandts - Just The Way It Is Baby"+longspace
+let space = '\u00a0'+'\u00a0'+'\u00a0'+'\u00a0'+'\u00a0';
+let Li          = 20;
+let Lii         = 0;
+function ScrollMessage() {
+  let scrolltxt = "";
+  scrolltxt = msg.substring(Li,Lii);
+  Li++;
+  Lii++;
+  if (Li>msg.length){
+    Li=20;
+    Lii=0;
+  }
+  //let scrolltxt="";
+  let linie = document.querySelectorAll(".text pre");
+  //if (msg.length > 20){scrolltxt += msg.substring(pos, msg.length)+" "+space+" "+msg.substring(0, pos);}
+  //else{ scrolltxt = msg}
+  //pos++;
+  //if (pos > msg.length) pos = 0;  
+  odswiezacz = setTimeout(function(){ScrollMessage();},300)
+	linie[2].textContent = "RMF FM  "+space+"Vol: "+'\u00a0'+" 74";
+	linie[1].textContent = "Temp: 7\u00B0C "+'\u00a0'+" Pochmurno";
+    linie[0].textContent = "21:19 "+space+" Thursday";
+    linie[3].textContent = scrolltxt;
+} 
+  
+ScrollMessage()  
+  
+/*
+var tablica =  ['Linia nr 1', 'Linia nr 2', 'Linia nr 3', 'Linia nr 4', 'Linia nr 5', 'Linia nr 6']
+var nr=0;
+
+function wyswietlaj(){
+	var ekran = document.getElementsByClassName("text");
+	var wpis = '';
+    wpis += '<pre>'+tablica[nr+0] + '</pre>';
+	wpis += '<pre>'+tablica[nr+1] + '</pre>';
+	wpis += '<pre>'+tablica[nr+2] + '</pre>';
+	wpis += '<pre>'+tablica[nr+3] + '</pre>';
+	ekran[0].innerHTML = wpis;
+	
+	nr++
+	if (nr>tablica.length - 4) nr=0
+	odswiezacz = setTimeout(function(){wyswietlaj();},2000)
+}
+
+var msg = "Nic dwa razy się nie zdarza i nie zdarzy. Z tej przyczyny zrodziliśmy się bez wprawy i pomrzemy bez rutyny. ";
+
+function ScrollMessage() {
+  var ekran = document.getElementsByClassName("text");
+  let scrolltxt = msg.substring(pos, msg.length)+msg.substring(0, pos);
+  let wpis = '<pre>'+scrolltxt + '</pre>';
+  ekran[0].innerHTML = wpis;
+  pos++;
+ if (pos > msg.length) pos = 0;
+ window.setTimeout("ScrollMessage()",300);
+}  
+*/ 
+//wyswietlaj()
+//ScrollMessage()
+
+//document.addEventListener("DOMContentLoaded",function(){
+//let linie = document.querySelectorAll(".text pre");
+//linie[0].textContent = Math.random();
+//linie[1].textContent = Math.random();
+//linie[2].textContent = Math.random();
+//linie[3].textContent = Math.random();
+//})
+</script>  
+  </body>
+</html>
