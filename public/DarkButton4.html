@@ -212,9 +212,30 @@ body {
 
  
 <script>
-var nr=0;
-var tablica =  ['Linia nr 1', 'Linia nr 2', 'Linia nr 3', 'Linia nr 4', 'Linia nr 5', 'Linia nr 6']
 var odswiezacz;
+var pos = 0;
+var msg = "Rembrandts - Just The Way It Is Baby";
+let space = '\u00a0'+'\u00a0'+'\u00a0'+'\u00a0'+'\u00a0';
+
+function ScrollMessage() {
+  let scrolltxt="";
+  let linie = document.querySelectorAll(".text pre");
+  if (msg.length > 20){scrolltxt += msg.substring(pos, msg.length)+" "+space+" "+msg.substring(0, pos);}
+  else{ scrolltxt = msg}
+  pos++;
+  if (pos > msg.length) pos = 0;  
+  odswiezacz = setTimeout(function(){ScrollMessage();},300)
+	linie[2].textContent = "RMF FM  "+space+"Vol: "+'\u00a0'+" 74";
+	linie[1].textContent = "Temp: 7\u00B0C "+'\u00a0'+" Pochmurno";
+    linie[0].textContent = "21:19 "+space+" Thursday";
+    linie[3].textContent = scrolltxt;
+}  
+ScrollMessage()  
+  
+/*
+var tablica =  ['Linia nr 1', 'Linia nr 2', 'Linia nr 3', 'Linia nr 4', 'Linia nr 5', 'Linia nr 6']
+var nr=0;
+
 function wyswietlaj(){
 	var ekran = document.getElementsByClassName("text");
 	var wpis = '';
@@ -228,9 +249,9 @@ function wyswietlaj(){
 	if (nr>tablica.length - 4) nr=0
 	odswiezacz = setTimeout(function(){wyswietlaj();},2000)
 }
-  
+
 var msg = "Nic dwa razy się nie zdarza i nie zdarzy. Z tej przyczyny zrodziliśmy się bez wprawy i pomrzemy bez rutyny. ";
-var pos = 0; 
+
 function ScrollMessage() {
   var ekran = document.getElementsByClassName("text");
   let scrolltxt = msg.substring(pos, msg.length)+msg.substring(0, pos);
@@ -240,18 +261,17 @@ function ScrollMessage() {
  if (pos > msg.length) pos = 0;
  window.setTimeout("ScrollMessage()",300);
 }  
-  
+*/ 
 //wyswietlaj()
-ScrollMessage()
+//ScrollMessage()
 
-document.addEventListener("DOMContentLoaded",function(){
-let linie = document.querySelectorAll(".text pre");
-
+//document.addEventListener("DOMContentLoaded",function(){
+//let linie = document.querySelectorAll(".text pre");
 //linie[0].textContent = Math.random();
 //linie[1].textContent = Math.random();
 //linie[2].textContent = Math.random();
 //linie[3].textContent = Math.random();
-})
+//})
 </script>  
   </body>
 </html>
