@@ -33,7 +33,7 @@ body {
 .button:hover {
   background: -webkit-linear-gradient(top, #535353 0%, #252525 100%);
 }
-.button:active, div.button.rectangle.active {
+.button:active, div.button.rectangle.active, div.button.accordion.active {
   background: -webkit-linear-gradient(top, #252525 0%, #353535 100%);
   box-shadow: inset 0px 1px 2px #151515, 0px 0px 2px black;
 }
@@ -45,7 +45,7 @@ body {
   left:50%;
   transform: translate(-50%, -56%);
 }
-.button:active i, div.button.rectangle.active i {
+.button:active i, div.button.rectangle.active i, div.button.accordion.active i {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -65,6 +65,14 @@ body {
   border-radius: 5px;
   color: #909090;
 }
+
+.accordion {
+  width: 45px;
+  height: 45px;
+  border-radius: 5px;
+  color: #909090;
+}
+  
 .rectangle {
   /*padding: 0 20px;*/
   width: 65px;
@@ -106,7 +114,20 @@ body {
     line-height: 2px;
 	color:#fff;
 }
- 
+.panel {
+  position: absolute;
+    top: -186px;
+    /*left: 0px;
+  justify-content: space-evenly;
+    font-family: monospace;
+    font-weight: normal;
+	font-size: 25px;
+    line-height: 2px;
+	color:#ff0;*/
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+} 
 </style>  
 </head>
 <body>
@@ -120,21 +141,24 @@ body {
 	</div>
   </div> 
   <div class="klawisze">
-        <div class="button circle" style="top: -130px; left: 0px;">
+        <div class="button circle" style="top: -130px; left: 0px;" onClick='VolumeChange("m");'>
           <i class="fal fa-volume-down"></i>
         </div>
-        <div class="button circle"style="top: -130px; left: 0px;">
+        <div class="button circle"style="top: -130px; left: 0px;" onClick='VolumeChange("p");'>
           <i class="fal fa-volume-up"></i>
         </div>
-        <div class="button circle"style="top: -130px; left: 0px;">
+        <div class="button circle"style="top: -130px; left: 0px;" onClick='StationChange("m");'>
           <i class="fal fa-backward"></i>
         </div>
-        <div class="button circle"style="top: -130px; left: 0px;">
+        <div class="button circle"style="top: -130px; left: 0px;" onClick='StationChange("p");'>
           <i class="fal fa-forward"></i>
         </div>
-        <div class="button square"style="top: -130px; left: 0px;">
-          <i class="fa-light fa-gear"></i>
-        </div>        
+        <div class="button accordion"style="top: -130px; left: 0px;">
+          <i class="fa-light fa-gear"></i>          
+        </div>
+       <div class="panel">
+             <input type='radio' onclick='docheck(this);'>
+          </div>
   </div>
   <div class="klawisze">
         <div class="button square"style="top: -130px; left: 0px;">
@@ -156,6 +180,10 @@ body {
   </div>
 
 <div class="klawisze">
+  <!--<div class="panel">
+    <input type='radio'onclick='docheck(this);'>
+  </div>-->
+  
     <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("1");'>
       <i class="fa-light fa-1"></i>
     </div> 
@@ -183,12 +211,18 @@ body {
   <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("8");'>
     <i class="fa-light fa-8"></i>
   </div> 
+  
 </div>
 
 
 <script>
 const $=e=>document.querySelector(e);
 const $$=e=>document.querySelectorAll(e);
+let linie = document.querySelectorAll("#lcdekran p");
+let numer="\u00a0";
+let name = "\u00a0";
+let stream = "";
+let vol=0;
 let nr=0;
 let checkedradio=null;
 var acc = document.getElementsByClassName("accordion");
@@ -275,19 +309,24 @@ const radioFETCH=(param) =>{
     .catch(e => {console.log(e)})
   }
 
-
+const VolumeChange=(param) =>{
+  if (param == "p") {vol++;}
+  if (vol > 99){vol = 99;}
+  if (param == "m") {vol--;}
+  if (vol < 0){vol = 0;}
+}
 const StationChange=(param) =>{	
   if (param == "m") {nr--;}
   if (param == "p") {nr++;} 
-  removeActive("div.radia button");
+  removeActive("div.button.rectangle");
   if (nr > streamsDEF.length){nr = 1;}
   if (nr <= 0){nr = streamsDEF.length;}
   radioFETCH("s="+param)
- 
-  $("#name").textContent = streamsDEF[nr-1].a;
-  $("#stream").textContent = streamsDEF[nr-1].s;
-  $("#numer").textContent = nr;
-  $$("div.radia button")[nr-1].classList.add("active");
+  name = streamsDEF[nr-1].a;
+  stream = streamsDEF[nr-1].s;
+  if (nr < 10) {nr = "0" + nr;}
+  numer =nr.toString();
+  //$$("div.radia button")[nr-1].classList.add("active");
   radioFETCH("x="+streamsDEF[nr-1].s);
   radioFETCH("n="+streamsDEF[nr-1].n);
   radioFETCH("a="+streamsDEF[nr-1].a);
@@ -318,7 +357,7 @@ const ZachowajStacje=(params)=>{
     //console.log("RadioButton jest nieaktywny")
     //let odczyt = localStorage.getItem("FAV"+params);
     $$("div.button.rectangle")[parseInt(params)-1].classList.add("active");
-   //<div class="button rectangle"  
+
   //console.log("odczyt:")
     //console.log(odczyt)
     //if (odczyt===null){
@@ -354,14 +393,20 @@ function docheck(thisradio) {
     if (checkedradio == thisradio) {
         thisradio.checked = false;
         checkedradio = null;
+        name = "\u00a0";
     }
-    else {checkedradio = thisradio;}
+    else {checkedradio = thisradio;
+         name = "Favorite Setting";
+         }
 }
+  
+console.log(acc.length)
 
 for (i = 0; i < acc.length; i++) {
   acc[i].addEventListener("click", function() {
     this.classList.toggle("active");
     var panel = this.nextElementSibling;
+    console.log(panel)
     if (panel.style.maxHeight) {
       panel.style.maxHeight = null;
     } else {
@@ -395,11 +440,11 @@ function ScrollMessage() {
    scrolltxt = msg
   }
     
-  let linie = document.querySelectorAll("#lcdekran p"); 
+  //let linie = document.querySelectorAll("#lcdekran p"); 
   odswiezacz = setTimeout(function(){ScrollMessage();},300)
-	linie[2].textContent = "RMF FM  "+space+"Vol: "+'\u00a0'+"74";
+	linie[2].textContent = "RMF FM  "+space+"Vol: "+'\u00a0'+vol;
 	linie[1].textContent = "Temp: 5\u00B0C "+'\u00a0'+"Pochmurno";
-    linie[0].textContent = "09:40 04-02 \u00a0\u00a0Friday";
+    linie[0].textContent = name;
     linie[3].textContent = scrolltxt;
 } 
   
