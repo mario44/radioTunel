@@ -184,27 +184,35 @@ body {
 
  
 <script>
-var odswiezacz;
+var odswiezacz; 
 var pos = 0;
 let longspace = "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"
-let msg = longspace+"Rembrandts - Just The Way It Is Baby"+longspace
+let msg = "Lady Pank - Na co komu dziś"
 let space = '\u00a0'+'\u00a0'+'\u00a0'+'\u00a0'+'\u00a0';
 let Li          = 20;
 let Lii         = 0;
 function ScrollMessage() {
   let scrolltxt = "";
-  scrolltxt = msg.substring(Li +1,Lii);
+  let lmsgl = "";
+  if (msg.length > 20){lmsgl = longspace+msg+longspace;
+  scrolltxt = lmsgl.substring(Li,Lii);
   Li++;
   Lii++;
-  if (Li>msg.length){
+  if (Li>lmsgl.length){
     Li=20;
     Lii=0;
   }
+}
+ else {
+        if (msg == "") {msg ="\u00a0";}
+   scrolltxt = msg
+  }
+    
   let linie = document.querySelectorAll("#lcdekran p"); 
   odswiezacz = setTimeout(function(){ScrollMessage();},300)
-	linie[2].textContent = "RMF FM  "+space+"Vol: "+'\u00a0'+" 74";
-	linie[1].textContent = "Temp: 6\u00B0C "+'\u00a0'+" Pochmurno";
-    linie[0].textContent = "08:50 04-02-22 Friday";
+	linie[2].textContent = "RMF FM  "+space+"Vol: "+'\u00a0'+"74";
+	linie[1].textContent = "Temp: 5\u00B0C "+'\u00a0'+"Pochmurno";
+    linie[0].textContent = "09:40 04-02 \u00a0\u00a0Friday";
     linie[3].textContent = scrolltxt;
 } 
   
