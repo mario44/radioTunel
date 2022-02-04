@@ -349,38 +349,38 @@ const CheckIfExist=(params)=>{
 }
 
 const ZachowajStacje=(params)=>{ 
-  //CheckIfExist(params);
-  //console.log(checkedradio)
+  CheckIfExist(params);
+  console.log(checkedradio)
   removeActive("div.button.rectangle");
-  //let FAV="";
-  //if (checkedradio === null){
-    //console.log("RadioButton jest nieaktywny")
-    //let odczyt = localStorage.getItem("FAV"+params);
+  let FAV="";
+  if (checkedradio === null){
+    console.log("RadioButton jest nieaktywny")
+    let odczyt = localStorage.getItem("FAV"+params);
     $$("div.button.rectangle")[parseInt(params)-1].classList.add("active");
 
-  //console.log("odczyt:")
-    //console.log(odczyt)
-    //if (odczyt===null){
-	//console.log("Brak Zapisanej stacji")
-    //alert("Brak Zapisanej stacji");
-    //return;
-	//}
-    //$("#name").textContent = JSON.parse(odczyt).a;
-    //$("#stream").textContent = JSON.parse(odczyt).s;
-    //$("#numer").textContent = JSON.parse(odczyt).i;
-    //radioFETCH("x="+JSON.parse(odczyt).s);
-    //radioFETCH("n="+JSON.parse(odczyt).n);
-    //radioFETCH("a="+JSON.parse(odczyt).a);
-    //radioFETCH("st="+JSON.parse(odczyt).i);
-    //refreshInfo(2);
-  //} else {
-    //if (nr===0) {alert("Wybierz stację");
-  	//} else {
-    //FAV=streamsDEF[nr-1];
-    //localStorage.setItem("FAV"+params, JSON.stringify(FAV));
-    //alert("Zapisano");
-    //}
-  //}
+  console.log("odczyt:")
+  console.log(odczyt)
+    if (odczyt===null){
+	console.log("Brak Zapisanej stacji")
+    alert("Brak Zapisanej stacji");
+    return;
+	}
+    name = JSON.parse(odczyt).a;
+    stream = JSON.parse(odczyt).s;
+    numer = JSON.parse(odczyt).i;
+    radioFETCH("x="+JSON.parse(odczyt).s);
+    radioFETCH("n="+JSON.parse(odczyt).n);
+    radioFETCH("a="+JSON.parse(odczyt).a);
+    radioFETCH("st="+JSON.parse(odczyt).i);
+    refreshInfo(2);
+  } else {
+    if (nr===0) {alert("Wybierz stację");
+  	} else {
+    FAV=streamsDEF[nr-1];
+    localStorage.setItem("FAV"+params, JSON.stringify(FAV));
+    alert("Zapisano");
+    }
+  }
 }	
 const StationChangeByNumber=(nr) =>{	
  //console.log(nr);
