@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<title>#DarkButton</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="HandheldFriendly" content="true">
+<meta name="mobile-web-app-capable" content="yes"> 
+<link rel="stylesheet" href="https://mario44.github.io/fontawesome/css/all.css">
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+
+<style> 
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #151515;
+  padding: 0%;
+  font-family: 'Roboto';font-size: 14px;   
+}
+.button {
+  display: inline-block;
+  margin: 0.1%;
+  color: black;
+  text-align: left;
+  background: -webkit-linear-gradient(top, #434343 0%, #252525 70%);
+  position: relative;
+  box-shadow: inset 0px -3px 3px #151515, inset 0px 1px 2px #858585, inset 1px 0px 1px #151515, 0px 0px 2px black;
+  cursor: pointer;
+}
+.button:hover {
+  background: -webkit-linear-gradient(top, #535353 0%, #252525 100%);
+}
+.button:active, div.button.rectangle.active {
+  background: -webkit-linear-gradient(top, #252525 0%, #353535 100%);
+  box-shadow: inset 0px 1px 2px #151515, 0px 0px 2px black;
+}
+
+
+.button i {
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%, -56%);
+}
+.button:active i, div.button.rectangle.active i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -45%);
+  color: #20abfe;
+  transition: color 0.05s ease-in;
+}
+.circle {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  color: #909090;
+}
+.square {
+  width: 45px;
+  height: 45px;
+  border-radius: 5px;
+  color: #909090;
+}
+.rectangle {
+  /*padding: 0 20px;*/
+  width: 65px;
+  height: 45px;
+  border-radius: 5px;
+  /*font-weight: bold;*/
+  color: #909090;
+}
+
+
+/*.rectangle p {
+  margin: 10px 0
+}
+.rectangle:active p {
+  color: cyan;
+  margin: 12px 0 6px 0;
+} */
+.klawisze {
+    top: 0px;
+    left: 0px;
+    max-width: 360px;
+    display: flex;
+    margin: 1em auto;
+    position: relative;
+    align-items: center;
+    justify-content: space-evenly;
+    align-content: space-around;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+#lcdekran {
+    position: relative;
+    top: -170px;
+    left: 0px;
+  justify-content: space-evenly;
+    font-family: monospace;
+    font-weight: normal;
+	font-size: 25px;
+    line-height: 2px;
+	color:#fff;
+}
+ 
+</style>  
+</head>
+<body>
+  <div class="klawisze">
+    <img src="https://mario44.github.io/radioTunel/public/img/LCD1602_Blue.png" style="width:100%; height:200px">
+  <div id="lcdekran">
+		<p>01234abcdefghijklmno</p>
+		<p>fghijklmnoprstu01234</p>
+		<p>098765ABCDEFGHIJKLMN</p>
+		<p>!@#$%^&*()_+|}{":?<></p>
+	</div>
+  </div> 
+  <div class="klawisze">
+        <div class="button circle" style="top: -130px; left: 0px;">
+          <i class="fal fa-volume-down"></i>
+        </div>
+        <div class="button circle"style="top: -130px; left: 0px;">
+          <i class="fal fa-volume-up"></i>
+        </div>
+        <div class="button circle"style="top: -130px; left: 0px;">
+          <i class="fal fa-backward"></i>
+        </div>
+        <div class="button circle"style="top: -130px; left: 0px;">
+          <i class="fal fa-forward"></i>
+        </div>
+        <div class="button square"style="top: -130px; left: 0px;">
+          <i class="fa-light fa-gear"></i>
+        </div>        
+  </div>
+  <div class="klawisze">
+        <div class="button square"style="top: -130px; left: 0px;">
+          <i class="fal fa-signal-stream" aria-hidden="true"></i>
+        </div>
+        <div class="button square"style="top: -130px; left: 0px;">
+          <i class="fal fa-clock" aria-hidden="true"></i>
+        </div>
+        <div class="button square"style="top: -130px; left: 0px;">
+          <i class="fal fa-mp3-player" aria-hidden="true"></i>
+        </div>
+        <div class="button square"style="top: -130px; left: 0px;">
+          <i class="fal fa-bluetooth" aria-hidden="true"></i>
+        </div>
+
+        <div class="button square"style="top: -130px; left: 0px;">
+          <i class="fal fa-radio" aria-hidden="true"></i>
+        </div>
+  </div>
+
+<div class="klawisze">
+    <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("1");'>
+      <i class="fa-light fa-1"></i>
+    </div> 
+    <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("2");'>
+      <i class="fa-light fa-2"></i>
+    </div> 
+    <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("3");'>
+      <i class="fa-light fa-3"></i>
+    </div> 
+    <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("4");'>
+      <i class="fa-light fa-4"></i>
+    </div> 
+</div>
+
+<div class="klawisze">
+  <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("5");'>
+    <i class="fa-light fa-5"></i>
+  </div> 
+  <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("6");'>
+    <i class="fa-light fa-6"></i>
+  </div> 
+  <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("7");'>
+    <i class="fa-light fa-7"></i>
+  </div> 
+  <div class="button rectangle"style="top: -130px; left: 0px;" onclick='ZachowajStacje("8");'>
+    <i class="fa-light fa-8"></i>
+  </div> 
+</div>
+
+
+<script>
+const $=e=>document.querySelector(e);
+const $$=e=>document.querySelectorAll(e);
+let nr=0;
+let checkedradio=null;
+var acc = document.getElementsByClassName("accordion");
+var i;
+let streamsDEF = [
+{"i":"1", "a":"TOK-FM", "n": "ST-01","s":"http://pl-play.adtonos.com/tok-fm"},
+{"i":"2", "a":"RMF Top 30 PL", "n": "ST-02","s":"http://195.150.20.243:8000/rmf_top_5_pl"},
+{"i":"3", "a":"RMF W PRACY", "n": "ST-03","s":"http://31.192.216.10:8000/rmf_w_pracy"},
+{"i":"4", "a":"RMF BALLADY", "n": "ST-04","s":"http://31.192.216.7:8000/rmf_nostalgia"},
+{"i":"5", "a":"RMF-FM", "n": "ST-05","s":"http://195.150.20.243:8000/rmf_fm"},
+{"i":"6", "a":"RMF-24", "n": "ST-06","s":"http://195.150.20.7:8000/rmf_24"},
+{"i":"7", "a":"RMF HOT NEW", "n": "ST-07","s":"http://217.74.72.11:8000/rmf_hot_new"},
+{"i":"8", "a":"RMF HARD and HEAVY", "n": "ST-08","s":"http://217.74.72.11:8000/rmf_hard_heavy"},
+{"i":"9", "a":"RMF 3 POP-ROCK", "n": "ST-09","s":"http://195.150.20.7:8000/rmf_3"},
+{"i":"10", "a":"RADIO-ZET", "n": "ST-10","s":"http://zet-tun.cdn.eurozet.pl:8080"},
+{"i":"11", "a":"ZLOTE-PRZEBOJE", "n": "ST-11","s":"https://pl2-play.adtonos.com/zote-przeboje"},
+{"i":"12", "a":"RMF Blues", "n": "ST-12","s":"http://217.74.72.11:8000/rmf_blues"},
+{"i":"13", "a":"RMF 25 Lat FM", "n": "ST-13","s":"http://195.150.20.9:8000/rmf_20lat"},
+{"i":"14", "a":"RMF NIEZAPO MEL", "n": "ST-14","s":"http://195.150.20.242:8000/rmf_niezapomniane_melodie"},
+{"i":"15", "a":"SZCZECIN", "n": "ST-15","s":"http://stream4.nadaje.com:11986/prs.aac"},
+{"i":"16", "a":"Radio SUPERNOVA", "n": "ST-16","s":"https://ext03.ic.smcdn.pl/1380-1.aac"},
+{"i":"17", "a":"RADIO PLUS", "n": "ST-17","s":"https://ext03.ic.smcdn.pl/4000-1.mp3"},
+{"i":"18", "a":"RADIO POGODA", "n": "ST-18","s":"https://pl-play.adtonos.com/radio-pogoda"},
+{"i":"19", "a":"Radio Nowy Świat", "n": "ST-19","s":"http://stream.rcs.revma.com/ypqt40u0x1zuv"},
+{"i":"20", "a":"Anty-Radio", "n": "ST-20","s":"http://www.emsoft.ct8.pl/inne/anty.m3u"},
+{"i":"21", "a":"357", "n": "ST-21","s":"http://stream.rcs.revma.com/ye5kghkgcm0uv"},
+];
+
+let urlDEF = "/";  
+let urlObj = new URL(window.location.href);
+urlDEF = urlObj.searchParams.get("url") || urlDEF;
+console.log("urlDEF=",urlDEF);
+localStorage.setItem("urlDEF", urlDEF); 
+let url = urlDEF;
+
+const removeActive=(dom)=>{
+  $$(dom).forEach((e)=>e.classList.remove("active"));
+}
+
+const radioSlij=(el)=>{
+    removeActive("div.radia button")
+    el.target.classList.add("active");
+    let data = el.target.dataset;
+  //console.log(data);
+    $("#name").textContent = data.n;
+    nr = parseInt(data.st)+1;
+    $("#numer").textContent = nr
+    $("#stream").textContent = data.stream;
+    radioFETCH("x="+data.stream);
+    radioFETCH("n="+data.n);
+    radioFETCH("a="+data.a);
+    radioFETCH("stpr="+data.st);
+    refreshInfo(5);
+}
+
+const refreshInfo=(sek=5)=> {
+   setTimeout(()=>{radioFETCH("");},1000*sek);
+}
+const opisInfoRadio=(tx)=>{
+  let arr = tx.split("!");
+  //console.log(arr);
+   $("#vol").textContent = arr[0];
+   $("#rsid").textContent = arr[1];
+   $("#name").textContent = arr[2];
+   $("#stream").textContent = arr[3];
+   $("#info").textContent = arr[4];
+   //$("#numer").textContent = parseInt(arr[5])+1;
+   //nr = parseInt(arr[5])+1;
+   //console.log(nr);
+   //StationChangeByNumber(nr);
+   //removeActive("div.radia button"); 
+}
+const checkForError = response => {
+  if (!response.ok) throw Error(response.statusText);
+  return response.text();
+};
+const radioFETCH=(param) =>{
+    let u = url+"radio?"+param; 
+    fetch(u)
+    .then(checkForError)
+    .then(tx => {
+       opisInfoRadio(tx);  
+    })
+    .catch(e => {console.log(e)})
+  }
+
+
+const StationChange=(param) =>{	
+  if (param == "m") {nr--;}
+  if (param == "p") {nr++;} 
+  removeActive("div.radia button");
+  if (nr > streamsDEF.length){nr = 1;}
+  if (nr <= 0){nr = streamsDEF.length;}
+  radioFETCH("s="+param)
+ 
+  $("#name").textContent = streamsDEF[nr-1].a;
+  $("#stream").textContent = streamsDEF[nr-1].s;
+  $("#numer").textContent = nr;
+  $$("div.radia button")[nr-1].classList.add("active");
+  radioFETCH("x="+streamsDEF[nr-1].s);
+  radioFETCH("n="+streamsDEF[nr-1].n);
+  radioFETCH("a="+streamsDEF[nr-1].a);
+  radioFETCH("st="+nr);
+  refreshInfo(2);
+}
+	  
+const CheckIfExist=(params)=>{
+	let fav_name = "FAV"+params
+	let f_name = localStorage.getItem(fav_name);
+	console.log(f_name)
+	if (f_name===null){
+	console.log("Brak Zapisanej stacji")
+	} else {
+	console.log("Czy chcesz nadpisać stacje?")
+	}
+	//confirmAction();
+	
+	//localStorage.removeItem(fav_name);
+}
+
+const ZachowajStacje=(params)=>{ 
+  //CheckIfExist(params);
+  //console.log(checkedradio)
+  removeActive("div.button.rectangle");
+  //let FAV="";
+  //if (checkedradio === null){
+    //console.log("RadioButton jest nieaktywny")
+    //let odczyt = localStorage.getItem("FAV"+params);
+    $$("div.button.rectangle")[parseInt(params)-1].classList.add("active");
+   //<div class="button rectangle"  
+  //console.log("odczyt:")
+    //console.log(odczyt)
+    //if (odczyt===null){
+	//console.log("Brak Zapisanej stacji")
+    //alert("Brak Zapisanej stacji");
+    //return;
+	//}
+    //$("#name").textContent = JSON.parse(odczyt).a;
+    //$("#stream").textContent = JSON.parse(odczyt).s;
+    //$("#numer").textContent = JSON.parse(odczyt).i;
+    //radioFETCH("x="+JSON.parse(odczyt).s);
+    //radioFETCH("n="+JSON.parse(odczyt).n);
+    //radioFETCH("a="+JSON.parse(odczyt).a);
+    //radioFETCH("st="+JSON.parse(odczyt).i);
+    //refreshInfo(2);
+  //} else {
+    //if (nr===0) {alert("Wybierz stację");
+  	//} else {
+    //FAV=streamsDEF[nr-1];
+    //localStorage.setItem("FAV"+params, JSON.stringify(FAV));
+    //alert("Zapisano");
+    //}
+  //}
+}	
+const StationChangeByNumber=(nr) =>{	
+ //console.log(nr);
+  //removeActive("div.radia button");
+  //$("#numer").textContent = nr_esp;
+  //$$("div.radia button")[nr].classList.add("active");
+  refreshInfo(2);
+}
+function docheck(thisradio) {
+    if (checkedradio == thisradio) {
+        thisradio.checked = false;
+        checkedradio = null;
+    }
+    else {checkedradio = thisradio;}
+}
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+  
+  
+var odswiezacz; 
+var pos = 0;
+let longspace = "\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"
+let msg = "Lady Pank - Na co komu dziś"
+let space = '\u00a0'+'\u00a0'+'\u00a0'+'\u00a0'+'\u00a0';
+let Li          = 20;
+let Lii         = 0;
+function ScrollMessage() {
+  let scrolltxt = "";
+  let lmsgl = "";
+  if (msg.length > 20){lmsgl = longspace+msg+longspace;
+  scrolltxt = lmsgl.substring(Li,Lii);
+  Li++;
+  Lii++;
+  if (Li>lmsgl.length){
+    Li=20;
+    Lii=0;
+  }
+}
+ else {
+        if (msg == "") {msg ="\u00a0";}
+   scrolltxt = msg
+  }
+    
+  let linie = document.querySelectorAll("#lcdekran p"); 
+  odswiezacz = setTimeout(function(){ScrollMessage();},300)
+	linie[2].textContent = "RMF FM  "+space+"Vol: "+'\u00a0'+"74";
+	linie[1].textContent = "Temp: 5\u00B0C "+'\u00a0'+"Pochmurno";
+    linie[0].textContent = "09:40 04-02 \u00a0\u00a0Friday";
+    linie[3].textContent = scrolltxt;
+} 
+  
+ScrollMessage()  
+</script>  
+  </body>
+</html>
