@@ -574,7 +574,7 @@ function degToCompass(num) {
 }
   
 function Pogoda() {
-  let apiKey = "3fd473910363f525e0ccda7233d75105";
+  let apiKey = "*******************************";
   fetch("https://api.openweathermap.org/data/2.5/weather?q=Szczecin,pl&lang=PL&units=metric&appid="+apiKey)
   .then(response => response.json())
   .then(data => console.log("DATA", data));
