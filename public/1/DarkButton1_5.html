@@ -149,7 +149,8 @@ body {
   box-shadow: 0 3px 10px rgba(0,0,0,0.3);
 }
 .modalblue {
-  background: #99e6ff;
+  //background: #99e6ff;
+  background: coral;
   color: white;
   }
 img {
@@ -499,6 +500,7 @@ for (i = 0; i < acc.length; i++) {
 }
 let czasdata='\u00a0';
 var petla;
+
 function getTimeDate(){
 var dt = new Date();
 czasdata = dt.toLocaleTimeString() + "\u00a0\u00a0\u00a0" + dt.toLocaleDateString();
@@ -536,7 +538,7 @@ function ScrollMessage() {
   odswiezacz = setTimeout(function(){ScrollMessage();},300)
 	linie[2].textContent = "RMF FM  "+space+"Vol: "+'\u00a0'+vol;
 	linie[0].textContent = czasdata;
-    linie[1].textContent = "Temp: 5\u00B0C "+'\u00a0'+"Pochmurno";
+    //linie[1].textContent = "Temp: 5\u00B0C "+'\u00a0'+"Pochmurno";
     //linie[0].textContent = name;
     linie[3].textContent = scrolltxt;
 } 
@@ -558,9 +560,15 @@ const ModalMode=()=>{
   //document.getElementById('overlay').classList.add('is-visible');
   //document.getElementById('modal').classList.add('is-visible');
 //});
+function degToCompass(num) {
+    var val = Math.floor((num / 22.5) + 0.5);
+    var arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    return arr[(val % 16)];
+}
+  
 
 let weather = {
-  apiKey: "****************************",
+  apiKey: "*****************************",
   fetchWeather: function (city) {
     fetch(
       "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -578,11 +586,21 @@ let weather = {
       .then((data) => this.displayWeather(data));
   },
   displayWeather: function (data) {
+    console.log(data)
     const { name } = data;
     const { icon, description } = data.weather[0];
     const { temp, humidity } = data.main;
-    const { speed } = data.wind;
-    console.log(description)
+    const { deg, speed } = data.wind;
+    const {sunrise, sunset} = data.sys;
+    var sset = new Date(sunset * 1000).toLocaleTimeString();
+    var srise = new Date(sunrise * 1000).toLocaleTimeString();
+    
+    console.log(srise, sset)   //toLocaleTimeString()//
+    
+    let kierunekwiatru =degToCompass(deg);
+    console.log(kierunekwiatru)
+    linie[1].textContent = temp+"°C"
+    //var s = new Date(1504095567183).toLocaleTimeString("en-US")
     //document.querySelector(".city").innerText = "Weather in " + name;
     //document.querySelector(".icon").src =
       //"https://openweathermap.org/img/wn/" + icon + ".png";
@@ -614,9 +632,8 @@ let weather = {
   //});
 
 weather.fetchWeather("Szczecin");
-  
-//https://www.youtube.com/watch?v=WZNG8UomjSI//
-	
+//https://www.youtube.com/watch?v=WZNG8UomjSI  
+//https://github.com/DenverCoder1/weather-app-tutorial
 </script>  
   </body>
 </html>
