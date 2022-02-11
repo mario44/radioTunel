@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+       
+    </style>
+</head>
+<body>
+<p id="output"></p>
+<script>
+let dataType = "forecast"  //"celestialevents","forecast","mapfeature","currenthour","observations"    
+let YRNO_API = "https://www.yr.no/api/v0/locations/2-11748765/"+dataType;
+
+const _getYRNO=(url)=>{  
+  fetch(url)
+    .then(function(response) {
+          if (!response.ok) {throw Error(response.statusText);}
+          return response.json();
+    })
+    .then(obj => {
+        zapiszYRNO(obj);
+    })
+    .catch(e => {console.log(e)})
+};
+
+const zapiszYRNO=(obj)=>{
+  let dayIntervals = obj.dayIntervals;
+  let day0 = dayIntervals[0];
+  let temperature = day0.temperature;
+  let temp = temperature.value;
+  let temp_min = temperature.min
+  let temp_max = temperature.max
+  document.getElementById("output").innerHTML = '{"temperature":{'+'"value": '+temp+', "min": '+temp_min+', "max": '+temp_max+'}}'; 
+}
+
+const getYRNO2Cache=()=>{
+  _getYRNO(YRNO_API);
+}
+_getYRNO(YRNO_API);
+  
+  
+</script>
+</body>
+</html>
